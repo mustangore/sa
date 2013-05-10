@@ -10,7 +10,7 @@ Im Gegensatz zur Lagrange- und Newton-Interpolation wird bei der Spline-Interpol
   \begin{center}
     \includegraphics[width=0.7\textwidth]{images/spline} % IN UR THESIS
   \end{center}
-  \caption{Glättung durch Splines. Links: Streckenzug mit Hilfe von Geraden zwischen zwei Punkten. Rechts: Streckenzug mit Hilfe von kubischen Polynomen. (\textcopyright \ Daten von \emph{Gerhard Wanner}).}
+  \caption{Glättung durch Splines. Links: Streckenzug mit Hilfe von Geraden zwischen zwei Punkten. Rechts: Streckenzug mit Hilfe von kubischen Polynomen. (Daten von \emph{Gerhard Wanner}).}
   \label{fig:cat}
 \end{figure}\\
 Was auf den ersten Blick auffällt: Aufgrund kubischer Parabeln entstehen für jedes Intervall $[x_i,x_{i+1}]$ vier unbekannte Koeffizienten $a_i, b_i, c_i$ und $d_i$. Bei $n$ verschiedenen Teilintervallen bedeutet das, dass mit Hilfe von $n$ Gleichungen $4n$ unbekannte Koeffizienten bestimmt werden sollen. Dies ist keine mögliche Aufgabe. Um alle Koeffizienten eindeutig bestimmen zu können, müssen weitere Bedingungen herangezogen werden. Die erste Bedingung ist, dass der ermittelte kubische Spline zweimal stetig differenzierbar sein muss. Dadurch wird ein durchgehender Polynomzug erzwungen. Eine weitere Bedingung ist, dass kubische Splines eine Minimalitätsbedingung für die zweite Ableitung erfüllen müssen, was sie gegenüber anderen Splines besonders interessant macht.\\
@@ -30,7 +30,7 @@ s_i(x_{i+1}) & =y_{i+1}\ .
 Dadurch entstehen $2n$ Bedingungen. Eingesetzt bedeutet das für die beiden Endpunkte eines Teilintervalls $[x_i,x_{i+1}]$
 \begin{align*}
 s_i(x_i) = a_i(x_i-x_i)^3 + b_i(x_i-x_i)^2 + c_i(x_i-x_i) + d_i = d_i &= y_i\ ,\\
-s_i(x_{i+1}) = a_i(x_{i+1}-x_i)^3 + b_i(x_{i+1}-x_i)^2 + c_i(x_{i+1}-x_i) + d_i &= y_{i+1}\ .  
+s_i(x_{i+1}) = a_i(x_{i+1}-x_i)^3 + b_i(x_{i+1}-x_i)^2 + c_i(x_{i+1}-x_i) + d_i &= y_{i+1}\ .
 \end{align*}
 
 Zudem sind alle ($n-2$) inneren Stützstellen zweimal stetig differenzierbar. Mit den ersten beiden Ableitungen
@@ -119,7 +119,7 @@ mit $h:= \max_{0\leq k<n-1} (x_{k+1}-x_k)$. Der Beweis würde über den Rahmen der
 \subsection{Kubische Spline-Interpolation im Naor-Pinkas-Verfahren}
 \label{ch:np-revocation-schema:sec:spline-np}
 %% ==============================
-Die Umsetzung der Spline-Interpolation im Naor-Pinkas-Verfahren bringt einige Schwierigkeiten mit sich. Diese werden in diesem Abschnitt näher erläutert. 
+Die Umsetzung der Spline-Interpolation im Naor-Pinkas-Verfahren bringt einige Schwierigkeiten mit sich. Diese werden in diesem Abschnitt näher erläutert.
 
 \subsubsection{Wertebereich des Splines}
 Auf den ersten Blick fällt auf, dass die zu ermittelnde Funktion $s(x)$ im Wertebereich $[x_0,x_n]$ beschränkt ist. Jedoch wird im Naor-Pinkas-Verfahren der geheime Schlüssel $\mathcal S$ standardmäßig im Punkt $x=0$ gespeichert. Um  $0 \in [x_0,x_n]$ sicherzustellen, muss mindestens ein Stützwert $x_{neg} < 0$ existieren. Dies kann ein vom Gruppencontroller ausgewählter Dummy-Benutzer $u_d \in \mathcal R$ sein. Sollte es sich nicht um einen Dummy handeln, muss zu jeder Zeit sichergestellt werden, dass mindestens ein Wertepaar $<I_{u_i},P(I_{u_i})>$ eines Empfängers $u_i \in \mathcal R$ existiert. Grund hierfür ist, dass ein Empfänger $u \in \mathcal N \setminus \mathcal R$ nicht in der Menge $\mathcal R$ der übertragenen Nachricht vorkommt. Anders ausgedrückt kann in solch einer Konstellation lediglich der Empfänger $u_i$ mit $I_{u_i}<0$ den Schlüssel $\mathcal S$ berechnen, da außer ihm niemand eine Funktion $s(x)$ interpolieren kann, welche im Wertebereich $x<0$ liegt. Diese Situation wird nochmal in der folgenden Abbildung \ref{fig:bereich} dargestellt.

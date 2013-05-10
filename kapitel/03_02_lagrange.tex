@@ -1,7 +1,7 @@
 
 
 \section{Naor-Pinkas-Polynom-Interpolation mit Lagrange}
-Im vorherigen Abschnitt \ref{ch:np-revocation-schema:sec:Verfahren} wurde das von M. Naor und B. Pinkas entwickelte Verfahren vorgestellt, jedoch ohne Angabe eines konkreten Interpolationsverfahrens für das Polynom $P$. Die im Paper angewendete Lagrange-Interpolation wird in diesem Abschnitt das Hauptthema sein. 
+Im vorherigen Abschnitt \ref{ch:np-revocation-schema:sec:Verfahren} wurde das von M. Naor und B. Pinkas entwickelte Verfahren vorgestellt, jedoch ohne Angabe eines konkreten Interpolationsverfahrens für das Polynom $P$. Die im Paper angewendete Lagrange-Interpolation wird in diesem Abschnitt das Hauptthema sein.
 
 %% ==============================
 \subsection{Lagrange-Interpolationsaufgabe für Polynome}
@@ -15,9 +15,9 @@ Dabei seien ($t+1$) paarweise verschiedene Stützstellen $x_i \in \mathbb R$ mit 
 \end{align*}
 als die zur Stützstelle $x_i$ gehörenden Lagrange-Grundpolynome. Das Interpolationsproblem lässt sich in der Lagrange-Form mit Hilfe der $\lambda_i$ direkt darstellen:
 \begin{align*}
-P(x) \coloneqq \sum_{i=0}^t \lambda_i(x) \cdot y_i 
+P(x) \coloneqq \sum_{i=0}^t \lambda_i(x) \cdot y_i
 \end{align*}
-Nach dem Fundamentalsatz der Algebra existiert ein solches Polynom stets und ist eindeutig bestimmbar. Das Polynom wird als Lagrange'sches Interpolationspolynom in der Langrange'schen Darstellung bezeichnet. Die eben aufgeführte Formel unterstreicht zudem, dass eine lineare Abhängigkeit zwischen $P$ und den Stützstellen $y_i$ besteht. Wie später gezeigt wird, kann diese Eigenschaft in gewissen Situationen von Vorteil sein.
+Nach dem Fundamentalsatz der Algebra \cite{g15} existiert ein solches Polynom stets und ist eindeutig bestimmbar. Das Polynom wird als Lagrange'sches Interpolationspolynom in der Langrange'schen Darstellung bezeichnet. Die eben aufgeführte Formel unterstreicht zudem, dass eine lineare Abhängigkeit zwischen $P$ und den Stützstellen $y_i$ besteht. Wie später gezeigt wird, kann diese Eigenschaft in gewissen Situationen von Vorteil sein.
 
 %% ==============================
 \subsection{Lagrange-Interpolation im Naor-Pinkas-Verfahren}
@@ -31,7 +31,7 @@ Mit Hilfe der Lagrange-Interpolation soll jeder Empfänger $u \in \mathcal N\setm
 \begin{align*}
 \lambda_0 \coloneqq \lambda_0(0) = \prod_{j=1}^t \frac{-I_{u_j}}{I_{u_0}-I_{u_j}} = \prod_{j=1}^t \frac{I_{u_j}}{I_{u_j}-I_{u_0}}
 \end{align*}
-an der gewünschten Stelle x=0 aus.\\
+an der gewünschten Stelle $x=0$ aus.\\
 \newpage
 Die beiden Werte kann lediglich der Empfänger $u_0$ berechnen, da das Wertepaar $K_{u_0} = <I_{u_0}, P(I_{u_0})>$ nur ihm bekannt ist.
 Im nächsten Schritt werden mit Hilfe der übermittelten Nachricht die weiteren erforderlichen $t$ Lagrange-Grundpolynome berechnet:
@@ -50,17 +50,27 @@ Mit Hilfe des vom Gruppencontroller übertragenen Wertes $g^r$ und der persönlich
 \subsection{Aufwand}
 \label{ch:np-revocation-schema:sec:Aufwand}
 Um den Rechenaufwand der Lagrange-Interpolation im Naor-Pinkas-Verfahren ermitteln zu können, werden die jeweiligen Berechnungsschritte eines Empfängers genauer betrachtet. Die Formel für die Berechnung eines einzelnen Lagrange-Grundpolynoms lautet:
+\begin{align*}
+  \lambda_i &= \prod_{j=0,\,j\neq i}^t \frac{I_{u_j}}{I_{u_j}-I_{u_i}}
+  = \frac{
+    I_{u_0} \cdot \ldots \cdot I_{u_{i-1}} \cdot I_{u_{i+1}} \cdot \ldots \cdot I_{u_t}
+  }{
+    (I_{u_0}-I_{u_i})\cdot \ldots \cdot (I_{u_{i-1}}-I_{u_i}) \cdot (I_{u_{i+1}}-I_{u_i})\cdot \ldots \cdot (I_{u_t}-I_{u_i})
+  }
+\end{align*}
+Dabei werden im Zähler insgesamt ($t-1$) Mutliplikationen (M) und im Nenner ($t-1$) M und $t$ Additionen (A) benötigt. Zudem kommt zum Schluss eine Division (D) dazu. Zusammengefasst ergibt das für ein einzelnes Lagrange-Grundpolynome folgenden Aufwand:
 \[
-\lambda_i = \prod_{j=0,\,j\neq i}^t \frac{I_{u_j}}{I_{u_j}-I_{u_i}}
+  2\cdot (t+1)\,M + 1\, D  + t\, A.
 \]
-Dabei werden insgesamt ($t-1$) Mutliplikationen (M), $t$ Divisionen (D) und $t$ Additionen (A) benötigt. Die Berechnung muss für jede der ($t+1$) Stützstellen ausgeführt werden. Der Rechenaufwand für die Lagrange-Grundpolynome steigt dadurch auf insgesamt
+Die Berechnung muss für jede der ($t+1$) Stützstellen ausgeführt werden. Der Rechenaufwand für alle Lagrange-Grundpolynome steigt dadurch auf insgesamt
 \begin{align}
 \label{eq:la_auf_grundpol}
-t\cdot (t+1)\,M + t\cdot (t+1)\,D + t\cdot(t+1)\,A
+&\hspace*{0.45cm} (t+1)\cdot ( 2\cdot(t+1)\,M +1\,D + t\,A )\notag\\
+&= 2\cdot (t+1)^2\,M + (t+1)\,D + t\cdot(t+1)\,A
 \end{align}
 an. Die nächsten Berechnungen erfolgen bei der Ermittlung des geheimen Schlüssels $\mathcal S$. Mit Hilfe des vom Gruppencontroller übertragenen Wertes $g^r$ kann der Empfänger $(g^r)^{P(I_{u_0})}$ berechnen. Offensichtlich kostet dies eine Exponentenberechnung (E). Um das Polynom letztendlich an der Stelle $P(0)$ ermitteln zu können, muss die folgende Formel ausgeführt werden:
 \[
-\prod_{i=0}^t (g^{r P(I_{u_0})})^{\lambda_0}
+\prod_{i=0}^t (g^{r P(I_{u_i})})^{\lambda_i}=(g^{r P(I_{u_0})})^{\lambda_0} \cdot \ldots \cdot (g^{r P(I_{u_t})})^{\lambda_t}
 \]
 Zum einen sind dank der übertragenen Nachricht die Werte bekannt, zum anderen müssen die Exponenten noch berechnet werden. Dies erhöht den Aufwand auf weitere ($t+1$) E. Der Berechnungsaufwand beträgt demnach
 \begin{align}
@@ -72,10 +82,11 @@ t\,M + (t+2)\,E .
 Nach den Ergebnissen aus \eqref{eq:la_auf_grundpol} und \eqref{eq:la_auf_formel} beträgt der Gesamtaufwand für einen Empfänger mit der Lagrange-Interpolation im Naor-Pinkas-Verfahren
 \begin{align}
 \label{eq:la_formel_gesamt}
-(t^2+2t)\,M + t\cdot (t+1)\,D + t\cdot(t+1)\,A + (t+2)\,E.
+&\hspace*{0.45cm} 2\cdot (t+1)^2\,M + (t+1)\,D + t\cdot(t+1)\,A + t\,M + (t+2)\,E \notag\\
+&= \left(2\cdot (t+1)^2+t\right)\,M+(t+1)\,D + t\cdot(t+1)\,A + (t+2)\,E.
 \end{align}
 
 \subsection{Fazit}
 \label{ch:np-revocation-schema:sec:Fazit}
-Die Lagrange-Interpolation ist nicht für die praktische Verwendung geeignet. Zum einen ist bei einer großen Anzahl von Stützstellen der Rechenaufwand verhältnismäßig groß, da für alle ($t+1$) Stützstellen jeweils ein Lagrange-Grundpolynom berechnet werden muss, was zu einem Gesamtaufwand von $O(t^2)$ führt. Zum anderen ist bei Hinzunahme lediglich einer einzelnen Stützstelle eine Neuberechnung aller $\lambda_i$ notwendig.\\
-\hspace*{0.45cm}Ein Vorteil der Lagrange-Darstellung ist jedoch, dass sich die Summen aus den aus Produkten bestehenden Brüchen besonders einfach in Form von ineinander geschachtelten Schleifen programmieren und somit einfacher in Programmen einbeziehen lassen. Hinzu kommt, dass die Stützwerte unabhängig von den Stützstellen berechnet werden. Sobald die Lagrange-Grundpolynome $\lambda_i$ bestimmt wurden, lassen sich verschiedene Sätze von Stützwerten $y_i$ mit gleichen Stützstellen $x_i$ schneller interpolieren. Auf das Verfahren von M. Naor und B. Pinkas bezogen, ein enormer Vorteil, da in einem Zeitraum bei Nichtveränderung der unerlaubten Empfängermenge die weiteren Empfänger $u \notin R$ durch lokale Speicherung der Lagrange-Grundpolynome $\lambda_i$ nicht mehr neu berechnet werden müssen. Aufgrund dieser Eigenschaft lässt sich nach einmaliger Berechnung der $\lambda_i$ und in einem Zeitraum ohne Änderung der Menge $\mathcal R$ der Rechenaufwand auf $t$ Multiplikationen und $(t+2)$ Exponentenberechnungen reduzieren. Zudem kann in diesem speziellen Zeitraum auch die zu übertragende Nachrichtenlänge um die Menge der zu sperrenden Empfänger $\mathcal R = \{I_{u_1},\dots,I_{u_t}\}$ verkürzt werden, da diese wegen den bereits berechneten und lokal gespeicherten Lagrange-Grundpolynomen $\lambda_i$ nicht mehr benötigt werden. Dadurch reduziert sich die Länge der übermittelten Nachricht um $t$ Elemente aus dem Körper $\mathcal F$.
+Die Lagrange-Interpolation selten praktische angewendet. Zum einen ist bei einer großen Anzahl von Stützstellen der Rechenaufwand verhältnismäßig groß, da für alle ($t+1$) Stützstellen jeweils ein Lagrange-Grundpolynom berechnet werden muss, was zum Gesamtaufwand wie in \eqref{eq:la_formel_gesamt} dargestellt führt. Zum anderen ist bei Hinzunahme lediglich einer einzelnen Stützstelle eine Neuberechnung aller $\lambda_i$ notwendig.\\
+\hspace*{0.45cm}Ein Vorteil der Lagrange-Darstellung ist jedoch, dass sich die Summen aus den aus Produkten bestehenden Brüchen besonders einfach in Form von ineinander geschachtelten Schleifen programmieren und somit einfacher in Programmen einbeziehen lassen. Zudem werden die Stützwerte unabhängig von den Stützstellen berechnet. Sobald die Lagrange-Grundpolynome $\lambda_i$ bestimmt wurden, lassen sich verschiedene Sätze von Stützwerten $y_i$ mit gleichen Stützstellen $x_i$ schneller interpolieren. Auf das Verfahren von M. Naor und B. Pinkas bezogen, ein enormer Vorteil, da in einem Zeitraum bei Nichtveränderung der unerlaubten Empfängermenge die weiteren Empfänger $u \notin R$ durch lokale Speicherung der Lagrange-Grundpolynome $\lambda_i$ nicht mehr neu berechnet werden müssen. Aufgrund dieser Eigenschaft lässt sich nach einmaliger Berechnung der $\lambda_i$ und in einem Zeitraum ohne Änderung der Menge $\mathcal R$ der Rechenaufwand auf $t$ Multiplikationen und $(t+2)$ Exponentenberechnungen reduzieren. Zudem kann in diesem speziellen Zeitraum auch die zu übertragende Nachrichtenlänge um die Menge der zu sperrenden Empfänger $\mathcal R = \{I_{u_1},\dots,I_{u_t}\}$ verkürzt werden, da diese wegen den bereits berechneten und lokal gespeicherten Lagrange-Grundpolynomen $\lambda_i$ nicht mehr benötigt werden. Dadurch reduziert sich die Länge der übermittelten Nachricht um $t$ Elemente aus dem Körper $\mathcal F$.
