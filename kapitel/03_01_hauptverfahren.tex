@@ -1,0 +1,75 @@
+
+Das von M. Naor und B. Pinkas vorgestellte Verfahren stellt eine abstrakte Definition eines Revocation-Schemas dar. Die Hauptaufgabe des Verfahrens bezieht sich darauf, auf geschickte Art und Weise eine Verteilung des geheimen Schlüssels sicherzustellen, sodass aus einer beliebig großen Menge von erlaubten Empfängern bis zu maximal $t$ Empfänger ausgeschlossen werden können.
+
+In der vorgestellten Arbeit werden drei Schemata vorgestellt, um unerlaubten Teilnehmern den Zugriff auf den Schlüssel und somit auf den Inhalt zu verweigern. Dabei konzentriert sich diese Studienarbeit ausschließlich auf das zweite vorgestellte Schema aus Kapitel 2.2 in \cite{np00}.
+
+%% ==============================
+\section{Verfahren}
+\label{ch:np-revocation-schema:sec:Verfahren}
+%% ==============================
+
+Das nun vorgestellte Schema ist für eine Anzahl von maximal $t$ zu sperrende Empfänger sicher und basiert auf der Decisional-Diffie-Hellman-Annahme.
+
+\subsection{Decisional-Diffie-Hellman-Annahme}
+% Die Decisional-Diffie-Hellman-Annahme (DDH) wird für die Konstruktion effizienter kryptographischer Funktionen genutzt, die eine sehr starke Sicherheit garantieren sollen. Diese enthält das Diffie-Hellman-Schlüsselvereinbarungsprotokoll \cite{dh79}, das ElGamal-Verschlüsselungsschema \cite{e85}, pseudozufällige Funktionen \cite{nr97} und eine Konstruktion eines Kryptosystems, welches gegen Choosen-Ciphertext-Angriffe \cite{cs98} sicher ist.\\
+% \hspace*{0.45cm}
+Gegeben sei eine endliche und zyklische Gruppe $\mathcal G$ mit einem Erzeuger $g$. Das bedeutet, dass zu jedem Element $f$ der Gruppe $\mathcal G$ eine Ganzzahl $z$ mit $f = g^z$ existiert. Bei der DDH-Annahme geht es darum, dass kein effizienter Algorithmus existiert, der zwischen den Verteilungen $<g^a, g^b, g^{ab}>$ und $<g^a, g^b, g^c>$ mit zufälligen und beliebigen $a,b,c$ aus $[1,\dots,|\mathcal G|]$ unterscheiden kann. Anders gesagt, kann unter der DDH-Annahme kein Angreifer den Wert $g^{ab}$ von einem zufälligen Gruppenelement unterscheiden.
+
+\subsection{Schema für viele Revocations}
+Das vorgestellte Schema aus Kapitel 2.2 der Veröffentlichung von Naor und Pinkas \cite{np00} ist über eine Untergruppe $\mathbb Z_q$ mit Ordnung $q$ in $\mathbb Z_p^*$ definiert, wobei $p$ eine Primzahl und $q|p-1$ definiert ist. Außerdem sei ein Erzeuger $g$ aus $\mathbb Z_q$ gegeben, sodass die Decisional Diffie-Hellman Annahme für $\mathbb Z_q$ und $g$ zutrifft.\\
+% Dieses Schema verwendet die zuvor veröffentlichte Idee von Feldman \cite{f87}, in der der erste Versuch beschrieben wurde, Shamirs-Secret-Sharing-Verfahren in den Exponenten zu verlagern.
+\hspace*{0.45cm}Dieses Schema kann für viele Revocations genutzt werden, solange verhindert wird, dass mehr als $t$ Teilnehmer ausgeschlossen werden sollen. Zudem wird später gezeigt, dass das Verfahren bis auf eine Vereinigung von ($t-1$) unerlaubte Teilnehmer sicher ist.\\
+\hspace*{0.45cm}Um das Schema umzusetzen, werden folgende zwei Phase benötigt:
+\begin{itemize}
+  \item
+    \textbf{Initialisierungsphase}\\
+    In dieser Phase generiert der Gruppencontroller ein beliebiges Polynom $P$ vom Grad $t$ welches über die Gruppe $\mathbb Z_q$ definiert ist. Nach diesem Schritt veröffentlicht der Gruppencontroller über einen privaten Kanal $p$ und $q$ und sendet jedem Teilnehmer $u$ seinen eindeutigen und persönlichen Schlüssel
+    \[
+      \mathcal K_u=<I_u, P(I_u)>.
+    \]
+    Dabei entspricht der Wert $I_u$ der öffentliche Teil des Shares und beschreibt gleichzeitig das zum Teilnehmer $u$ gehörende Identifizierungsmerkmal. Wichtig zu betonen ist, dass diese Phase ein einziges Mal für alle später folgenden Revocations durchgeführt werden muss.
+  \item
+    \textbf{Revocation-Phase}\\
+    In dieser Phase wird den unerlaubten Teilnehmern die Möglichkeit genommen, die vom Gruppencontroller übermittelte Nachricht zu ermitteln.\\
+    Dabei müssen die Identitäten der $t$ Teilnehmer $\mathcal R=\lbrace I_{u_1}, \dots, I_{u_t}\rbrace$ herausgefunden werden, die aus der Menge der erlaubten Empfänger ausgeschlossen werden sollen. Da dies nicht Teil des Revocation-Schemas ist, wird dies hier nicht näher erläutert.\\
+    Ist die unerlaubte Teilnehmermenge $\mathcal R$ bekannt, wählt der Gruppencontroller ein zufälliges, beliebiges $r \in \mathbb Z_q$ und setzt mit
+    \[
+      \mathcal S=g^{rP(0)}
+    \] als neuen Schlüssel fest. Zudem werden für alle Empfänger $I_{t_i} \in \mathcal R$ der Wert $g^{rP(I_{t_i})}$ berechnet. Im nächsten Schritt übermittelt der Gruppencontroller jedem Empfänger $u \in \mathcal N$ die berechneten Werte und den persönlichen Schlüssel der unerlaubten Empfängern:
+    \[
+    <g^r, g^{rP(I_{u_1})}, g^{rP(I_{u_2})}, \dots ,g^{rP(I_{u_t})}, I_{u_1},  I_{u_2}, \dots,  I_{u_t} >
+    \]
+\end{itemize}
+
+Jeder Empfänger $u \in \mathcal N \setminus \mathcal R$ besitzt mit der bei sich gespeicherten Information $\mathcal K_u=<I_u, P(I_u)>$ die notwendige ($t+1$)-te Information um das Polynom $P$ vom Grad $t$ eindeutig bestimmen zu können. Der Empfänger $u$ berechnet $(g^r)^{P(I_u)}$ und besitzt aufgrund dessen ($t+1$) Stützstellen $I_u, I_{u_1}, \dots I_{u_t}$ und die dazugehörenden ($t+1$) Stützwerte $(g^r)^{P(I_u)},(g^r)^{P(I_{u_1})},\dots,(g^r)^{P(I_{u_t})}$. Mit Hilfe einer beliebigen Polynominterpolation wird das Interpolationspolynom eindeutig rekonsturiert. Der letzte Schritt beim Empfänger besteht aus der Berechnung von $(g^r)^{P(0)}$, um den Schlüssel $\mathcal S$ zu erhalten.\\
+\hspace*{0.45cm}Ein Empfänger $u_{t_i} \in \mathcal R$ besitzt währenddessen mit Hilfe der übertragenen Nachricht und der gespeicherten Information $\mathcal K_{u_i} = <I_{u_i}, P(I_{u_i})>$ nur insgesamt $t$ verschiedene Stützwerte und Stützstellen. Zu wenig um das Interpolationspolynom vom Grad $t$ durch die angegebenen Stützstellen eindeutig bestimmen zu können.
+
+\subsubsection{Mehrfache Übertragung}
+Im Abschnitt \ref{sec:Grundlagen:sec:Single-Revocation} wurde beim Single-Revocation-Schema das Problem der Mehrfachausführung erklärt.
+
+\subsection{Unerlaubte Empfängermenge $\mathcal R$}
+Sollte zu einem beliebigen Zeitpunkt $t' < t$ unerlaubte Empfänger existieren, fehlen auch jedem erlaubten Teilnehmer ($t-t'$) Stützstellen um mit Hilfe einer Polynominterpolation das Interpolationspolynom vom Grad $t$ zu bestimmen. Dieses Problem kann vom Gruppencontroller behoben werden:\\
+\hspace*{0.45cm}Existieren zu einem beliebigen Zeitpunkt $t' < t$ unerlaubte Empfänger, erstellt der Gruppencontroller ($t-t'$) Dummy-Benutzer aus $P$, wobei diese Dummy-Benutzer von allen existierenden Teilnehmern verschieden sein müssen. Diese werden mit den realen unerlaubten Teilnehmer an alle $u \in \mathcal N$ versendet, sodass zu jedem Zeitpunkt sichergestellt wird, dass $t$ Stützstellen übermittelt werden.
+
+\subsection{Empfänger hinzufügen}
+\label{ch:np-revocation-schema:sec:add-user}
+Der Gruppencontroller kann jederzeit neue Empfänger hinzufügen, auch wenn diese nach der Initialisierungsphase hinzukommen. Sei $u_{new}$ der neue Empfänger. Der Gruppencontroller weist ihm eine neue, eindeutige und noch nicht verwendete Identität $I_{u_{new}}$ zu und sendet das ihm zugeordnete Wertepaar $\mathcal K_{u_{new}}= <I_{u_{new}},P(I_{u_{new}})>$ über einen privaten Kanal mit. Bei der nächsten Übertragung kann der Benutzer bereits $\mathcal S = g^{rP(0)}$ mit Hilfe der übermittelten $t$ Stützstellen und -werte berechnen.
+
+\subsection{Speicheraufwand}
+Jeder Teilnehmer $u$ muss seine persönliche Information $\mathcal K_u$ speichern. Das sind in diesem Fall ein Element $I_u \in \mathbb Z_q$ und der dazugehörige Wert des $P(I_u) \in \mathbb R$. Für den geheimen Schlüssel muss jeder Empfänger lediglich ein weiteres Element aus $\mathbb Z_q$ speichern.\\
+\hspace*{0.45cm}Die Revocation-Nachricht hat eine Länge von $O(t)$. Genauer gesagt enthält die Nachricht ($t+1$) Elemente aus $Z^*_p$ und $t$ Elemente aus $Z_q$, wobei $|Z_q|$ beträchtlich kleiner als $|Z^*_p|$ sein kann. Üblicherweise sind $|Z_q|=160$ und $|Z^*_p|=1024$.\\
+\hspace*{0.45cm}Der Gruppencontroller muss, im Gegensatz zu einem Teilnehmer, etwas mehr Speicherkapazität aufweisen. Dieser speichert das generierte Polynom $P$ und alle vergebenen Stützstellen, um eine doppelte Zuweisung zweier Teilnehmer zu vermeiden. Zudem müssen alle unerlaubten Empfänger markiert werden, um diese dann in der Nachricht übermitteln zu können.
+
+\subsection{Sicherheit}
+Das Verfahren von M. Naor und B. Pinkas kann wiederholt für Revocations verwendet werden, solange zu jedem Zeitpunkt bis zu maximal $t$ unerlaubte Empfänger davon abgehalten werden, den Gruppenschlüssel zu erfahren.
+Das Verfahren ist sicher bis auf eine Vereinigung von maximal $t$ Empfängern. Solch ein Zusammenschluss von Benutzern kann nicht zwischen dem Gruppenschlüssel und einem zufälligen Wert unterscheiden.
+
+\begin{proof}[\textbf{Beweisidee aus \cite{np00}}]
+\hspace*{0.45cm}Der Beweis basiert auf der DDH-Annahme. Aus Gründen der Übersichtlichkeit wird der Beweis zunächst für den Fall $t=1$ gezeigt.\\
+\hspace*{0.45cm}Angenommen das Verfahren sei für $t=1$ unsicher und kann von einem Teilnehmer $v$ gebrochen werden. Dieser führt einen Algorithmus $D'$ aus, der folgende Eingabe erhält: den Wert $P(I_v)$ des linearen Polynoms $P$ und polynomiell viele generierte Tupel $<g^{r_i}, g^{r_iP(I_v)}, g^{r_iP(0)}>$ mit zufällig ausgewähltem $r_i$ und den dem Teilnehmer $v$ bekannten Informationen $g^r$ und $g^{rP(I_v)}$. Diese Tupel wurden ihm während der Revocation-Phase bekannt, in welcher er ein legaler Teilnehmer war. Wenn die Annahme stimmt, kann $D'$ zwischen $g^{rP(0)}$ und einem zufälligen Wert unterscheiden.\\
+\hspace*{0.45cm}Hierfür wird ein Algorithmus $D$ konstruiert, welcher $D'$ nutzt, um die DDH-Annahme zu brechen. Die Eingaben von $D$ sind $g^a$, $g^b$ und ein Wert $C$, welcher entweder $g^{ab}$ oder ein zufälliger Wert ist. $D$ erstellt die Eingaben für $D'$, wobei $P(0)=b$ und $r=a$ als geplantes Ziel gesetzt werden. Zudem generiert der Algorithmus $D$ einen zufälligen Schlüssel $<I_v, P(I_v)>$ und übergibt diesen an $D'$. Im nächsten Schritt werden mit zufälligen Werten $r_i$ viele verschiedene Tupel der Form $<g^{r_i}, g^{r_iP(I_v)}, g^{r_ib}>$ erstellt und an $D'$ übergeben. Als nächstes werden $D'$ die weiteren Werte $(g^a, g^{aP(I_v)}, C)$ von $D$ übertragen. Letzterer gibt die gleiche Antwort wie der Algorithmus $D'$ aus. Dabei handelt es sich um die Ausgabe, ob es sich beim Wert $C$ um $g^{ab}$ handelt oder nicht. Die Erfolgswahrscheinlichkeit von $D'$ im Brechen der DDH-Annahme ist die gleiche Wahrscheinlichkeit wie die, dass $D'$ das Revocation-Schema bricht.\\
+\hspace*{0.45cm}Nun wird die Situation einer Vereinigung von $t$ korrupten Teilnehmern $1,\dots,t$ genauer betrachtet. Diese führen einen Algorithmus $D'$ aus, welcher folgende Eingaben erhält: Die Werte $P(I_1),\dots,P(I_t)$ des linearen Polynoms $P$ mit den Stützwerten $I_1,\dots,I_t$, polynomiell viele Tupel $<g^{r_i},g^{r_iP(I_1)},\dots,g^{r_iP(I_t)}>$ generiert mit zufällig ausgewählten $r_i$. Diese Werte werden der Vereinigung der korrupten Teilnehmer anhand der Revocation-Nachricht bekannt, wenn mindestens ein Teilnehmer nicht in der Menge $\mathcal R$ vorkam. Zudem wird dem Algorithmus $D'$ ein Tupel der Form $g^r, g^{rP(I_1)}, \dots, g^{rP(I_t)}$ übergeben, d.\,h. für jeden bekannten Wert $P(I_u)$ in der Vereinigung existiert ein dazugehöriger Wert $g^{rP(I_u)}$ im Tupel. Wenn die Annahme korrekt ist, kann $D'$ mit Hilfe dieser Informationen zwischen $g^{rP(0)}$ und einem zufälligen Wert unterscheiden.\\
+\hspace*{0.45cm}Unter Anwendung von $D'$ können wir erneut einen Algorithmus $D$ konstruieren, welcher die DDH-Annahme bricht. Die Eingaben von $D$ sind $g^a,g^b$ und ein Wert $C$, welcher entweder $g^{ab}$ oder ein Zufallswert ist. Im nächsten Schritt generiert $D$ die Eingaben für $D'$. Dieser erzeugt daraufhin zufällige Schlüssel der Form $\lbrace<I_j,P(I_j)>\rbrace_{j=1}^{\,t}$ und übergibt diese an $D'$. Anschließend generiert $D$ mit zufälligen Werten $r_i$ die Tupel $<g^{r_i}, g^{r_iP(I_1)}, \dots, g^{r_iP(I_t)}>$ und übergibt auch diese $D'$. \mbox{Daraufhin} überträgt $D$ die Werte $(g^a, g^{aP(I_1)}, \dots, g^{aP(I_t)}, C)$ an $D'$ und gibt dieselbe Antwort wie der Algorithmus $D'$ zurück (ob es sich beim Wert $C$ um $g^{ab}$ handelt oder nicht). Auch hier ist die Erfolgswahrscheinlichkeit von $D'$, dass dieser die DDH-Annahme bricht, genauso hoch wie die des Brechens des Revocation-Schemas.\newline
+\end{proof}
+$\qedhere$\\
+Angenommen es existiert ein Empfänger $u_l$, der bei der letzten übertragenen Nachricht zum Zeitpunkt $t_{-1}$ den Schlüssel $\mathcal S$ nicht bestimmen durfte, ihm jedoch beim darauffolgenden Zeitpunkt $t_{0}$ dieses Recht erneut gegeben wurde. Anders ausgedrückt, war der Empfänger zum Zeitpunkt $t_{-1}$ $u_l \in \mathcal R$ und zum Zeitpunkt $t_{0}$ $u_l \in \mathcal N \setminus \mathcal R$. In diesem Szenario reicht es aus, dass der Gruppencontroller den Empfänger $u_l$ aus der übertragenen Nachricht als unerlaubten Empfänger entfernt und durch einen Dummy-Benutzer oder einen anderen, unerlaubten Empfänger ersetzt. Der Empfänger benötigt keinen neuen persönlichen Schlüssel $\mathcal K_{u_l}$ und der Gruppencontroller braucht keinen neuen Schlüssel $\mathcal S$ oder ein Polynom $P$ zu bestimmen. Denn die ihm zugewiesene persönliche Information $P(u_l)$ ist lediglich dem Gruppencontroller und dem Teilnehmer $u_l$ bekannt. Durch das Verlagern der Information in den Exponenten mit Hilfe des Erzeugers $g$ und dem vor jeder Übertragung zufällig ausgewählten $r$ bleibt $P(u_l)$ aufgrund der Berechnung $g^{rP(u_l)}$ den anderen Empfängern unbekannt.

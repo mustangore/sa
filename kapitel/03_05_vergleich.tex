@@ -1,0 +1,45 @@
+
+%% ==============================
+\section{Vergleich der Interpolationsmöglichkeiten}
+\label{ch:np-revocation-schema:sec:fazit-all}
+%% ==============================
+
+Wie bisher gezeigt wurde, können im Naor-Pinkas-Verfahren die Lagrange-Interpolation und die Newton-Inteprolation gleichermaßen angewendet werden. In diesem Abschnitt sollen diese miteinander verglichen werden. Dabei wird besonders auf die arithmetischen Fließkommaoperationen pro Sekunde ($FLOPS$ = Floating-point Operations per Second) eingegangen, wobei die übliche Gewichtungen der Operationen in der folgenden Tabelle festgehalten werden:
+\begin{center}
+\begin{tabular}{l|l}
+\textbf{Gleitpunktoperation} & \textbf{Gewichtung} \\
+\hline
+Addition, Subtraktion, Multiplikation & 1 FLOPS\\
+Division & 4 FLOPS\\
+Exponentialfunktion & 8 FLOPS
+\end{tabular}
+\end{center}
+Werden die ermittelten Werte für die Lagrange-Interpolation aus \eqref{eq:la_formel_gesamt} genauer betrachtet, ergibt das
+\begin{align*}
+&\ \ \ \ \, (t^2+2t)\,M + t\cdot (t+1)\,D + t\cdot(t+1)\,A + (t+2)\,E\\
+&= (t^2+2t) + 4t\cdot (t+1) + t\cdot(t+1) + 8(t+2)\\
+&= 6t^2 + 15t + 16
+\end{align*}
+und aufgrund von \eqref{eq:newton-aufwand-gesamt} erhält die Newton-Interpolation die Gesamtgewichtung
+\begin{align*}
+&\ \ \ \ \left( \frac{t\cdot (t+1)}{2} \right)\,M + \left( \frac{t\cdot(t+1)}{2} \right)\,D + t\cdot(t+1)\,A+(t+1)\,E\\
+&= \frac{t\cdot (t+1)}{2} + 4\cdot \left( \frac{t\cdot(t+1)}{2} \right) + t\cdot(t+1) + 8(t+1)\\
+&= 3,5t^2 + 11,5t + 8\ .
+\end{align*}
+Das Ziel ist nun, diese zwei Ergebnisse zueinander in Beziehung zu setzen. Dabei wird mit einer Anzahl an unerlaubten Empfängern von $t>0$ folgende Abschätzung gemacht:
+\[
+  6t^2 + 15t + 16 > 6t^2 + 15t + 8 > 6t^2 + 11,5t + 8 > 3,5 t^2 + 11,5t + 8
+\]
+Zusammengefasst bedeutet dieses Ergebnis, dass die Anzahl an notwendigen Operationen eines Empfängers bei der Newton-Interpolation im Vergleich zur Lagrange-Interpolation für jede beliebige Anzahl an unerlaubten Empfängern geringer ausfällt. Dadurch kann das Naor-Pinkas-Verfahren mit Hilfe der Newton-Interpolation effizienter ausgeführt werden.
+
+Dass dieses Ergebnis eine nicht zu vernachlässigende Bedeutung hat, soll die folgende Tabelle darstellen.
+\begin{center}
+\begin{tabular}{c|c|c}
+\textbf{Unerlaubte Empfänger $t$} & \textbf{Gesamtgewichtung Lagrange} & \textbf{Gesamtgewichtung Newton} \\
+\hline
+100 & 61516 & 36158\\
+1000 & 6015016 & 3511508\\
+10000 & 600150016 & 350115008\\
+\end{tabular}
+\end{center}
+Ab einer gewissen Anzahl an unerlaubten Empfängern und mit Hilfe der oben definierten üblichen Gewichtung der Operationen wächst der Unterschied der Anzahl an $FLOPS$ zwischen der Lagrange- und der Newton-Interpolation auf das $\frac{6}{3,5}$-fache an.

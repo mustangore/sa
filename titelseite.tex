@@ -1,0 +1,51 @@
+%% Encoding: ISO8859-1 %%
+
+%% Titelseite
+
+\def\usesf{}
+\let\usesf\sffamily % diese Zeile auskommentieren für normalen TeX Font
+
+\newsavebox{\Prof}
+\savebox{\Prof}{\usesf Prof.~Dr.~?.~?????????}	
+
+\begin{titlepage}
+\setlength{\unitlength}{1pt}
+\begin{picture}(0,0)(85,770)
+\includegraphics[width=\paperwidth]{logos/KIT_Deckblatt}
+\end{picture}
+
+\thispagestyle{empty}
+
+%\begin{titlepage}
+%%\let\footnotesize\small \let\footnoterule\relax
+\begin{center}
+\hbox{}
+\vfill
+{\usesf
+{\huge\bfseries Alternative Interpolationsverfahren\\		% TODO Titel der Arbeit eintragen
+                im Naor-Pinkas-Broadcast-Schema \par}
+\vskip 1.8cm
+Studienarbeit\\	% TODO Art der Arbeit eintragen
+%von\\[2mm]
+\vskip 1cm
+
+{\large\bfseries Sébastien Jelsch\\}			% TODO Namen des Autors auf dem Titelblatt eintragen
+\vskip 1.2cm
+Institut für Kryptographie und Sicherheit\\
+Europäisches Institut für Systemsicherheit\\
+Fakultät für Informatik\\
+Karlsruher Institut für Technologie\\
+%Universität Karlsruhe (TH)\\[2ex]
+\vskip 3cm
+\begin{tabular}{p{5.5cm}l}
+Betreuender Professor: & {\usesf Jun.-Prof.~Dr.~D.~Hofheinz} \\	% TODO Profs eintragen
+Betreuender Mitarbeiter: & Dipl.-Inf.~C.~Striecks \\	% TODO Betreuer eintragen
+\end{tabular}
+\vskip 3cm
+Bearbeitungszeit:\qquad 15. November 2012 -- 14. Februar 2013	% TODO Bearbeitungszeit eintragen
+}
+\end{center}
+\vfill
+\end{titlepage}
+%% Titelseite Ende
+

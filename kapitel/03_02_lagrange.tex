@@ -1,0 +1,81 @@
+
+
+\section{Naor-Pinkas-Polynom-Interpolation mit Lagrange}
+Im vorherigen Abschnitt \ref{ch:np-revocation-schema:sec:Verfahren} wurde das von M. Naor und B. Pinkas entwickelte Verfahren vorgestellt, jedoch ohne Angabe eines konkreten Interpolationsverfahrens für das Polynom $P$. Die im Paper angewendete Lagrange-Interpolation wird in diesem Abschnitt das Hauptthema sein. 
+
+%% ==============================
+\subsection{Lagrange-Interpolationsaufgabe für Polynome}
+\label{ch:np-revocation-schema:sec:Mathematische Definition}
+%% ==============================
+Mit Hilfe der Lagrange-Interpolation wird in der numerischen Mathematik nach einem eindeutigen Polynom gesucht, welches exakt durch angegebene, paarweise verschiedene Punkte verläuft.
+
+Dabei seien ($t+1$) paarweise verschiedene Stützstellen $x_i \in \mathbb R$ mit $i=0,\dots,t$ und die zugehörigen Werte $y_i$, die sogenannten Stützwerte, bekannt. Das Problem bei der Interpolation lautet wie folgt: Gesucht wird nach einem reelen Polynom $P$ von Höchstgrad $t$, welches alle Gleichungen $P(x_i)=y_i$ erfüllt. Dabei bezeichnet man die Polynome
+\begin{align*}
+\lambda_{i}(x) \coloneqq \prod_{j=0,\,j \neq i}^t \frac{x-x_j}{x_i-x_j}
+\end{align*}
+als die zur Stützstelle $x_i$ gehörenden Lagrange-Grundpolynome. Das Interpolationsproblem lässt sich in der Lagrange-Form mit Hilfe der $\lambda_i$ direkt darstellen:
+\begin{align*}
+P(x) \coloneqq \sum_{i=0}^t \lambda_i(x) \cdot y_i 
+\end{align*}
+Nach dem Fundamentalsatz der Algebra existiert ein solches Polynom stets und ist eindeutig bestimmbar. Das Polynom wird als Lagrange'sches Interpolationspolynom in der Langrange'schen Darstellung bezeichnet. Die eben aufgeführte Formel unterstreicht zudem, dass eine lineare Abhängigkeit zwischen $P$ und den Stützstellen $y_i$ besteht. Wie später gezeigt wird, kann diese Eigenschaft in gewissen Situationen von Vorteil sein.
+
+%% ==============================
+\subsection{Lagrange-Interpolation im Naor-Pinkas-Verfahren}
+%% ==============================
+\label{ch:np-revocation-schema:sec:Lagrange}
+Der Gruppencontroller generiert ein zufälliges Polynom $P$ vom Grad $t$ über $\mathbb Z_q$ und erstellt für jeden Empfänger $u$ ein persönliches Wertepaar $K_{u_0} = <I_{u_0}, P(I_{u_0})>$. Dieses wird über einen privaten Kanal an den Empfänger $u_0$ gesendet, wobei $I_{u_0}$ ein nichtgeheimes Indentifizierungsmerkmal beschreibt. Zudem wählt der Gruppencontroller ein zufälliges $r \in \mathbb Z_q$ und setzt $g^{rP(0)}$ als neuen Schlüssel $\mathcal S$. Nach diesen Schritten übermittelt der Gruppencontroller folgende Nachricht in Klartext an alle Empfänger:
+\begin{align*}
+<g^r, g^{rP(I_{u_1})}, g^{rP(I_{u_2})}, \dots ,g^{rP(I_{u_t})}, I_{u_1},  I_{u_2}, \dots,  I_{u_t}>
+\end{align*}
+Mit Hilfe der Lagrange-Interpolation soll jeder Empfänger $u \in \mathcal N\setminus \mathcal R$ das vom Gruppencontroller generierte Polynom eindeutig bestimmen können. Zu Beginn berechnet $u$ den Wert $(g^r)^{P(I_{u_0})}$ und wertet das erste Lagrange-Grundpolynom
+\begin{align*}
+\lambda_0 \coloneqq \lambda_0(0) = \prod_{j=1}^t \frac{-I_{u_j}}{I_{u_0}-I_{u_j}} = \prod_{j=1}^t \frac{I_{u_j}}{I_{u_j}-I_{u_0}}
+\end{align*}
+an der gewünschten Stelle x=0 aus.\\
+\newpage
+Die beiden Werte kann lediglich der Empfänger $u_0$ berechnen, da das Wertepaar $K_{u_0} = <I_{u_0}, P(I_{u_0})>$ nur ihm bekannt ist.
+Im nächsten Schritt werden mit Hilfe der übermittelten Nachricht die weiteren erforderlichen $t$ Lagrange-Grundpolynome berechnet:
+\begin{align*}
+\lambda_i = \prod_{j=0,j\neq i}^t \frac{I_{u_j}}{I_{u_j}-I_{u_i}}
+\end{align*}
+Die Berechnung des Schlüssels $\mathcal S$ erfolgt nach folgenden Berechnungsschritten:
+\begin{align*}
+\mathcal S & = (g^r)^{P(0)}\\
+& = (g^r)^{\sum_{i=0}^t \lambda_i P(I_{u_i})}\\
+& = \prod_{i=0}^t (g^r)^{\lambda_i P(I_{u_i})}\\
+& = \prod_{i=0}^t (g^{r P(I_{u_i})})^{\lambda_i}
+\end{align*}
+Mit Hilfe des vom Gruppencontroller übertragenen Wertes $g^r$ und der persönlichen Information $K_{u_0} = <I_{u_0}, P(I_{u_0})>$ kann jeder Empfänger $u \in \mathcal N \setminus \mathcal R$ das Polynom eindeutig an der Stelle $g^{rP(0)}$ bestimmen, da nur dieser die erforderlichen ($t+1$) Wertepaare $<(I_{u_i}, P(I_{u_i})>$ mit $i=0,\dots,t$ besitzen. Einem Empfänger $u_r \in R$ fehlt das notwendige ($t+1$)-te Wertepaar, da seine Stützstelle bereits in der übermittelten Nachricht vorkommt und somit doppelt vorhanden ist.
+
+\subsection{Aufwand}
+\label{ch:np-revocation-schema:sec:Aufwand}
+Um den Rechenaufwand der Lagrange-Interpolation im Naor-Pinkas-Verfahren ermitteln zu können, werden die jeweiligen Berechnungsschritte eines Empfängers genauer betrachtet. Die Formel für die Berechnung eines einzelnen Lagrange-Grundpolynoms lautet:
+\[
+\lambda_i = \prod_{j=0,\,j\neq i}^t \frac{I_{u_j}}{I_{u_j}-I_{u_i}}
+\]
+Dabei werden insgesamt ($t-1$) Mutliplikationen (M), $t$ Divisionen (D) und $t$ Additionen (A) benötigt. Die Berechnung muss für jede der ($t+1$) Stützstellen ausgeführt werden. Der Rechenaufwand für die Lagrange-Grundpolynome steigt dadurch auf insgesamt
+\begin{align}
+\label{eq:la_auf_grundpol}
+t\cdot (t+1)\,M + t\cdot (t+1)\,D + t\cdot(t+1)\,A
+\end{align}
+an. Die nächsten Berechnungen erfolgen bei der Ermittlung des geheimen Schlüssels $\mathcal S$. Mit Hilfe des vom Gruppencontroller übertragenen Wertes $g^r$ kann der Empfänger $(g^r)^{P(I_{u_0})}$ berechnen. Offensichtlich kostet dies eine Exponentenberechnung (E). Um das Polynom letztendlich an der Stelle $P(0)$ ermitteln zu können, muss die folgende Formel ausgeführt werden:
+\[
+\prod_{i=0}^t (g^{r P(I_{u_0})})^{\lambda_0}
+\]
+Zum einen sind dank der übertragenen Nachricht die Werte bekannt, zum anderen müssen die Exponenten noch berechnet werden. Dies erhöht den Aufwand auf weitere ($t+1$) E. Der Berechnungsaufwand beträgt demnach
+\begin{align}
+\label{eq:la_auf_formel}
+t\,M + (t+2)\,E .
+\end{align}
+
+
+Nach den Ergebnissen aus \eqref{eq:la_auf_grundpol} und \eqref{eq:la_auf_formel} beträgt der Gesamtaufwand für einen Empfänger mit der Lagrange-Interpolation im Naor-Pinkas-Verfahren
+\begin{align}
+\label{eq:la_formel_gesamt}
+(t^2+2t)\,M + t\cdot (t+1)\,D + t\cdot(t+1)\,A + (t+2)\,E.
+\end{align}
+
+\subsection{Fazit}
+\label{ch:np-revocation-schema:sec:Fazit}
+Die Lagrange-Interpolation ist nicht für die praktische Verwendung geeignet. Zum einen ist bei einer großen Anzahl von Stützstellen der Rechenaufwand verhältnismäßig groß, da für alle ($t+1$) Stützstellen jeweils ein Lagrange-Grundpolynom berechnet werden muss, was zu einem Gesamtaufwand von $O(t^2)$ führt. Zum anderen ist bei Hinzunahme lediglich einer einzelnen Stützstelle eine Neuberechnung aller $\lambda_i$ notwendig.\\
+\hspace*{0.45cm}Ein Vorteil der Lagrange-Darstellung ist jedoch, dass sich die Summen aus den aus Produkten bestehenden Brüchen besonders einfach in Form von ineinander geschachtelten Schleifen programmieren und somit einfacher in Programmen einbeziehen lassen. Hinzu kommt, dass die Stützwerte unabhängig von den Stützstellen berechnet werden. Sobald die Lagrange-Grundpolynome $\lambda_i$ bestimmt wurden, lassen sich verschiedene Sätze von Stützwerten $y_i$ mit gleichen Stützstellen $x_i$ schneller interpolieren. Auf das Verfahren von M. Naor und B. Pinkas bezogen, ein enormer Vorteil, da in einem Zeitraum bei Nichtveränderung der unerlaubten Empfängermenge die weiteren Empfänger $u \notin R$ durch lokale Speicherung der Lagrange-Grundpolynome $\lambda_i$ nicht mehr neu berechnet werden müssen. Aufgrund dieser Eigenschaft lässt sich nach einmaliger Berechnung der $\lambda_i$ und in einem Zeitraum ohne Änderung der Menge $\mathcal R$ der Rechenaufwand auf $t$ Multiplikationen und $(t+2)$ Exponentenberechnungen reduzieren. Zudem kann in diesem speziellen Zeitraum auch die zu übertragende Nachrichtenlänge um die Menge der zu sperrenden Empfänger $\mathcal R = \{I_{u_1},\dots,I_{u_t}\}$ verkürzt werden, da diese wegen den bereits berechneten und lokal gespeicherten Lagrange-Grundpolynomen $\lambda_i$ nicht mehr benötigt werden. Dadurch reduziert sich die Länge der übermittelten Nachricht um $t$ Elemente aus dem Körper $\mathcal F$.

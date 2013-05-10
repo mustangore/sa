@@ -1,0 +1,157 @@
+
+\section{Naor-Pinkas-Polynominterpolation mit kubischen Splines}
+\label{ch:np-revocation-schema:spline}
+In diesem Abschnitt soll der Versuch geschildert werden, eine weitere Polynominterpolation in das Naor-Pinkas-Verfahren einzubauen: die sogenannte kubische Spline-Interpolation.
+
+\subsection{Kubische Splineinterpolation für Funktionen}
+\label{ch:np-revocation-schema:sec:spline-math}
+Im Gegensatz zur Lagrange- und Newton-Interpolation wird bei der Spline-Interpolation versucht, gegeben ($n+1$) bekannte, paarweise verschiedene Stützstellen $x_i \in \mathbb R$ und Stützwerte $y_i \in \mathbb R$ mit Hilfe stückweise stetiger Polynome eine möglichst glatte Funktion durch angegebene Punkte zu finden. Anders ausgedrückt soll eine Funktion mit möglichst geringer Krümmung bestimmt werden. Dabei wird jedes Teilintervall zwischen zwei Punkten $[x_i,x_{i+1}]$ mit $i=0,\dots,n-1$ durch ein Polynom $s_i:[x_i,x_{i+1}] \rightarrow \mathbb R$, einem Spline, beschrieben. Der einfache Ansatz besteht aus der Verwendung von Geraden zwischen jeweils zwei benachbarten Punkten. Der verbesserte Ansatz nutzt jedoch kubische Parabeln der Form $a_ix^3 + b_ix^2 + c_ix + d_i$. In diesem Fall werden letztere als kubische Splines bezeichnet. Diese werden in diesem Abschnitt näher betrachtet. \\
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/spline} % IN UR THESIS
+  \end{center}
+  \caption{Glättung durch Splines. Links: Streckenzug mit Hilfe von Geraden zwischen zwei Punkten. Rechts: Streckenzug mit Hilfe von kubischen Polynomen. (\textcopyright \ Daten von \emph{Gerhard Wanner}).}
+  \label{fig:cat}
+\end{figure}\\
+Was auf den ersten Blick auffällt: Aufgrund kubischer Parabeln entstehen für jedes Intervall $[x_i,x_{i+1}]$ vier unbekannte Koeffizienten $a_i, b_i, c_i$ und $d_i$. Bei $n$ verschiedenen Teilintervallen bedeutet das, dass mit Hilfe von $n$ Gleichungen $4n$ unbekannte Koeffizienten bestimmt werden sollen. Dies ist keine mögliche Aufgabe. Um alle Koeffizienten eindeutig bestimmen zu können, müssen weitere Bedingungen herangezogen werden. Die erste Bedingung ist, dass der ermittelte kubische Spline zweimal stetig differenzierbar sein muss. Dadurch wird ein durchgehender Polynomzug erzwungen. Eine weitere Bedingung ist, dass kubische Splines eine Minimalitätsbedingung für die zweite Ableitung erfüllen müssen, was sie gegenüber anderen Splines besonders interessant macht.\\
+\\
+Mathematisch formuliert wird nach einer Funktion \mbox{$s:[x_0, x_n] \rightarrow \mathbb R$} mit $x_0 < \dots < x_n$ und folgenden Eigenschaften gesucht:
+\begin{itemize}
+\item[(a)] $s(x_i) = y_i$ , $i=0,\dots, n$\ ,
+\item[(b)] $s \in C^2([x_0,x_n])$\ ,
+\item[(c)] $\int_{x_0}^{x_n}(s^{\prime\prime}(x))^2  \partial x \rightarrow min\ ,$
+\item[(d)] $s_i(x)=a_i(x-x_i)^3 + b_i(x-x_i)^2 + c_i(x-x_i) + d_i$ mit $x \in [x_i, x_{i+1}]$ und $i=0,\dots,n-1$.
+\end{itemize}
+Um das Gleichungssystem eindeutig zu lösen, werden $4n$ Bedingungen benötigt. Für jedes der $n$ Intervalle sind zwei Interpolationsbedingungen zu erfüllen:
+\begin{align*}
+s_i(x_i) & = y_i\ ,\\
+s_i(x_{i+1}) & =y_{i+1}\ .
+\end{align*}
+Dadurch entstehen $2n$ Bedingungen. Eingesetzt bedeutet das für die beiden Endpunkte eines Teilintervalls $[x_i,x_{i+1}]$
+\begin{align*}
+s_i(x_i) = a_i(x_i-x_i)^3 + b_i(x_i-x_i)^2 + c_i(x_i-x_i) + d_i = d_i &= y_i\ ,\\
+s_i(x_{i+1}) = a_i(x_{i+1}-x_i)^3 + b_i(x_{i+1}-x_i)^2 + c_i(x_{i+1}-x_i) + d_i &= y_{i+1}\ .  
+\end{align*}
+
+Zudem sind alle ($n-2$) inneren Stützstellen zweimal stetig differenzierbar. Mit den ersten beiden Ableitungen
+\begin{align*}
+s_i^{\prime}(x) &= 3a_i(x-x_i)^2+2b_i(x-x_i)+c_i\ ,\\
+s_i^{\prime\prime}(x) &= 6a_i(x-x_i)+2b_i
+\end{align*}
+werden weitere $2n-2$ Bedingungen
+\begin{align*}
+s_i^{\prime}(x_{i+1}) = s_{i+1}^{\prime}(x_{i+1}) \ \ \ \ \ & i = 0,\dots, n-2\ ,\\
+s_i^{\prime\prime}(x_{i+1}) = s_{i+1}^{\prime\prime}(x_{i+1}) \ \ \ \ \  & i = 0,\dots, n-2
+\end{align*}
+erzeugt, die erfüllt werden müssen. Die dadurch entstehenden Gleichungen der zweiten Ableitung werden in Abhängigkeit von $s^{\prime\prime}$ gelöst:
+\begin{align*}
+s_i^{\prime\prime}(x_i) &= 6a_i(x_i-x_i)+2b_i = 2b_i\\
+\Leftrightarrow \ b_i &= \frac{s_i^{\prime\prime}(x_i)}{2}\\
+s_i^{\prime\prime}(x_{i+1}) &= 6a_i(x_{i+1}-x_i)+2b_i = 6a_i(x_{i+1}-x_i) + 2\frac{s_i^{\prime\prime}(x_i)}{2}\\
+\Leftrightarrow a_i &= \frac{s_i^{\prime\prime}(x_{i+1})-s_i^{\prime\prime}(x_i)}{6(x_{i+1}-x_i)}
+\end{align*}
+Diese Gleichungen in $s_i(x_{i+1})$ eingesetzt ergeben:
+\begin{align*}
+s_i(x_{i+1}) & =y_{i+1} \\
+&=a_i(x_{i+1}-x_i)^3+b_i(x_{i+1}-x_i)^2+c_i(x_{i+1}-x_i)+d_i\\
+&= \frac{s_i^{\prime\prime}(x_{i+1})-s_i^{\prime\prime}(x_i)}{6}(x_{i+1}-x_i)^2+\frac{s_i^{\prime\prime}(x_i)}{2}(x_{i+1}-x_i)+c_i(x_{i+1}-x_i)+y_i\\
+\Leftrightarrow c_i &= \frac{y_{i+1}-y_i}{x_{i+1}-x_i}-\frac{2(x_{i+1}-x_i)s_i^{\prime\prime}(x_i)+(x_{i+1}-x_i)s_{i+1}^{\prime\prime}(x_{i+1})}{6}
+\end{align*}
+Mit Hilfe der ersten Ableitung werden die folgenden Berechnungen möglich:
+\begin{align*}
+s_i^{\prime}(x_i)&=3a_i(x_i-x_i)^2+2b_i(x_i-x_i)+c_i = c_i\\
+s_{i-1}^{\prime}&=3a_{i-1}(x_i-x_{i-1})^2+2b_{i-1}(x_i-x_{i-1})+c_{i-1}
+\end{align*}
+Mit der Vorraussetzung $s_i^{\prime}(x_i)=s_{i-1}^{\prime}(x_i)$ wird für die Berechnung der benötigten Koeffizienten das folgende Gesamtkonzept erstellt, wobei zur besseren Darstellung $h_i \coloneqq x_{i+1}-x_i$ gilt:
+\[
+\begin{pmatrix}
+  2(h_0 + h_1)  & h_1           & 0           & \cdots  & 0 \\
+  0             & h_2           & 2(h_2+h_3)  & h_3     & \vdots\\
+  \vdots        &               &             & \ddots  & \\
+  0             & \cdots        &             & h_{n-2} & 2(h_{n-2}+h_{n-1})
+\end{pmatrix}
+\begin{pmatrix}
+  s_1\\
+  s_2\\
+  \vdots\\
+  s_{n-1}
+\end{pmatrix}
+= 6 \cdot
+\begin{pmatrix}
+  \frac{y_2-y_1}{h_1}-\frac{y_1-y_0}{h_0}\\
+  \frac{y_3-y_2}{h_2}-\frac{y_2-y_1}{h_1}\\
+  \vdots\\
+  \frac{y_n-y_{n-1}}{h_{n-1}}-\frac{y_{n-1}-y_{n-2}}{h_{n-2}}
+\end{pmatrix}
+\]
+% \\
+% Für die letzten beiden fehlenden Bedingungen, den sogenannten Randbedingungen, gibt es verschiedene Möglichkeiten, so z.\,B.
+% \begin{itemize}
+% \item freier Rand oder natürlicher Spline: $s_0^{\prime\prime}(x_0)=0$ und $s_{n-1}^{\prime\prime}(x_n)=0$
+% \item eingespannter Rand: $s_0^{\prime}(x_0)=P^{\prime}(x_0)$ und $s_{n-1}(x_n)=P^{\prime}(x_n)$,
+% wobei $P^{\prime}(x_0)$ und $P^{\prime}(x_n)$ vorgegeben, normalerweise entweder durch die Ableitung der zu interpolierenden Funktion P oder durch eine Approximation.
+% \item periodische Randbedingung: $s_1^{\prime}(x_0)=s_n^{\prime}(x_n)$ und $s_1^{\prime\prime}(x_0)=s_n^{\prime\prime}(x_n)$
+% \end{itemize}
+% Gesamthaft haben wir $2n+2(n-1)+2=4n$ Bedingungen. Ausreichend um das Gleichungssystem eindeutig lösen zu können. ->
+
+Nach diesen Rechenschritten wird das Gesamtergebnis in Form einer Funktion mit den ermittelten $s_i$ angegeben:
+\begin{equation}
+s(x)= \left\{
+\begin{array}{ll}
+s_0(x), &x \in [x_0, x_1]\\
+s_1(x), &x \in [x_1, x_2]\\
+\ \ \ \ \vdots &\\
+s_{n-1}(x), &x \in [x_{n-1},x_n]
+\end{array}
+\right. .
+\end{equation}
+Da es sich bei der Spline-Interpolation um ein approximatives Verfahren handelt, spielt die Fehlerabschätzung eine wichige Rolle.
+
+\subsubsection{Fehlerabschätzung für kubische Splines}
+\label{ch:np-revocation-schema:sec:spline-error}
+Für eine Funktion $f \in C^2([x_0,x_n])$ und einen zugehörigen kubischen Spline $s$ bezüglich \mbox{$x_0<\dots<x_n$} und den Werten $y_k = f(x_k)$, $k=1,\dots,n$ mit natürlichen Randbedingungen $s_0^{\prime\prime}(x_0)=0$ und $s_{n-1}^{\prime\prime}(x_n)=0$ gilt die folgende Fehlerabschätzung:
+\begin{align*}
+\max_{x_0\leq x\leq x_n} \left| f(x)-s(x) \right| \leq \frac{1}{2} h^2 \max_{x_0\leq x\leq x_n} \left| f''(x)\right|
+\end{align*}
+mit $h:= \max_{0\leq k<n-1} (x_{k+1}-x_k)$. Der Beweis würde über den Rahmen der Studienarbeit hinausgehen, kann aber unter \cite{c11} nachgelesen werden.
+
+%% ==============================
+\subsection{Kubische Spline-Interpolation im Naor-Pinkas-Verfahren}
+\label{ch:np-revocation-schema:sec:spline-np}
+%% ==============================
+Die Umsetzung der Spline-Interpolation im Naor-Pinkas-Verfahren bringt einige Schwierigkeiten mit sich. Diese werden in diesem Abschnitt näher erläutert. 
+
+\subsubsection{Wertebereich des Splines}
+Auf den ersten Blick fällt auf, dass die zu ermittelnde Funktion $s(x)$ im Wertebereich $[x_0,x_n]$ beschränkt ist. Jedoch wird im Naor-Pinkas-Verfahren der geheime Schlüssel $\mathcal S$ standardmäßig im Punkt $x=0$ gespeichert. Um  $0 \in [x_0,x_n]$ sicherzustellen, muss mindestens ein Stützwert $x_{neg} < 0$ existieren. Dies kann ein vom Gruppencontroller ausgewählter Dummy-Benutzer $u_d \in \mathcal R$ sein. Sollte es sich nicht um einen Dummy handeln, muss zu jeder Zeit sichergestellt werden, dass mindestens ein Wertepaar $<I_{u_i},P(I_{u_i})>$ eines Empfängers $u_i \in \mathcal R$ existiert. Grund hierfür ist, dass ein Empfänger $u \in \mathcal N \setminus \mathcal R$ nicht in der Menge $\mathcal R$ der übertragenen Nachricht vorkommt. Anders ausgedrückt kann in solch einer Konstellation lediglich der Empfänger $u_i$ mit $I_{u_i}<0$ den Schlüssel $\mathcal S$ berechnen, da außer ihm niemand eine Funktion $s(x)$ interpolieren kann, welche im Wertebereich $x<0$ liegt. Diese Situation wird nochmal in der folgenden Abbildung \ref{fig:bereich} dargestellt.
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics[width=1\textwidth]{images/Bereich} % IN UR THESIS
+  \end{center}
+  \caption{Wertebereich der Spline-Interpolation. Links aus der Sicht des Empfängers $u_1$ mit $I_{u_1}<0$, rechts aus der Sicht des Empfängers $u_2$}
+  \label{fig:bereich}
+\end{figure}
+
+\subsubsection{Wert des Schlüssels}
+Eine weitere Untersuchung der Spline-Interpolation ergibt einen wichtigen Grund, weshalb diese im Naor-Pinkas-Verfahren nicht angewendet werden kann.
+Hierzu soll die in Abbildung \ref{fig:schluessel} definierte Situation mit den Teilnehmern $I_{u_1}, I_{u_2} \in \mathcal N \setminus \mathcal R$ und $I_{u_1}, I_{u_2} < 0$ genauer betrachtet werden. Seien $I_{u_{t_1}}, I_{u_{t_2}} \in \mathcal R$ mit der Sortierung $I_{u_1} < I_{u_2} < 0 < I_{u_{t_1}} < I_{u_{t_2}}$ gegeben. Ferner seien den Empfängern $u_1$ und $u_2$ die Werte $s^{\prime}(I_{u_{t_i}})$ und $s^{\prime\prime}(I_{u_{t_i}})$ mit $i=1,2$ bekannt.\\
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=1\textwidth]{images/Punkt0} % IN UR THESIS
+  \end{center}
+  \caption{Wertebereich der Spline-Interpolation. Links aus der Sicht des Empfängers $u_1$, rechts aus der Sicht des Empfängers $u_2$}
+  \label{fig:schluessel}
+\end{figure}
+
+Wie hier bereits mit einigen Beispielwerten gezeigt wird, ist der Schlüssel im Punkt $x=0$ aus der jeweiligen Sicht der Empfänger $u_1$ und $u_2$ nicht eindeutig. Dies soll nochmals betonen, dass die Spline-Interpolation nicht ohne weiteres im Naor-Pinkas-Verfahren angewendet werden kann.
+
+
+% Da der mathematische Beweis über den Rahmen dieser Studienarbeit hinausgehen würde, wodurch in dieser Situation die Sicherheit des Verfahrens nicht mehr gewährleistet werden könnte.
+
+%% ==============================
+\subsection{Fazit}
+\label{ch:np-revocation-schema:sec:spline-fazit}
+%% ==============================
+Die Spline-Interpolation generiert abschnittsweise glatte und stetig differenzierbare Funktionen und vermeidet starke Oszillationen im Funktionsverlauf. Jedoch kann sie nicht ohne weiteres im Naor-Pinkas-Schema angewendet werden, da es sich bei dieser Interpolation um ein approximatives Verfahren handelt.\\
+\hspace*{0.45cm}Zum einen liegt es am definierten Wertebereich der Funktion, zum anderen am ermittelten Wert des Schlüssels. Ersteres könnte noch einfach durch einen Dummy-Benutzer oder durch Festlegung des Schlüssels an einer anderen Stelle behoben werden. Das zweite Problem ist nicht ohne weiteres offensichtlich lösbar. Durch die Verwendung eines höheren Polynomgrades könnte der ermittelte Wert näher am tatsächlichen liegen, jedoch erhöht sich dadurch gleichzeitig der Berechnungsaufwand. Eine weitere Möglichkeit wäre, einen Schwellenwert für den Wert des Schlüssels zu benutzen. Jedoch würde sich die Sicherheit des Schemas in diesem Fall reduzieren, da der Schlüssel nicht mehr eindeutig berechnet werden, sondern sich lediglich im Schwellenwertbereich des Schlüssels befinden müsste.

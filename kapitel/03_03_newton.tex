@@ -1,0 +1,252 @@
+
+%% ==============================
+\section{Naor-Pinkas-Polynominterpolation mit Newton}
+\label{ch:np-revocation-schema:sec:Newton}
+%% ==============================
+In diesem Abschnitt soll gezeigt werden, dass die Lagrange-Interpolation nicht die einzige Möglichkeit für die Bestimmung des Interpolationspolynoms ist. Das Ziel in diesem Kapitel wird sein, die Newton-Interpolation im Naor-Pinkas-Verfahren gleichermaßen erfolgreich anzuwenden. Der Vergleich beider Interpolationen wird in Abschnitt \ref{ch:np-revocation-schema:sec:fazit-all} näher beschrieben.
+
+%% ==============================
+\subsection{Newton-Interpolationsaufgabe für Polynome}
+\label{ch:np-revocation-schema:sec:MathDef-Newton}
+%% ==============================
+Mit der Newton-Interpolation wird wie bei der Lagrange-Interpolation nach einem eindeutigen Polynom gesucht, welches exakt durch angegebene, paarweise verschiedene Punkte verläuft.
+
+Dabei seien ($t+1$) paarweise verschiedene Stützstellen $x_i \in \mathbb R$ mit $i=0,\dots,t$ und die zugehörigen Stützwerte $y_i$ bekannt. Es wird nach einem Polynom $P$ vom Höchstgrad $t$ gesucht, welches alle Gleichungen $P(x_i)=y_i$ erfüllt. Wir definieren mit
+\begin{align*}
+N_0(x) & \coloneqq 1\\
+N_i(x) & \coloneqq \prod_{j=0}^{i-1} (x - x_j) = (x-x_0)\cdots(x-x_{i-1})
+\end{align*}
+für $i=1,\dots,t$ die zur Stützstelle $x_i$ gehörenden Newton-Basisfunktionen, sodass $P$ mit der Newton'schen Interpolationsformel
+\begin{align}
+\label{eq:newton_formel}
+P(x) & \coloneqq \sum_{i=0}^t N_i(x) \cdot c_i\\
+&~= c_o + c_1(x-x_0) + \dots + c_t(x-x_0)\cdots(x-x_{t-1})
+\end{align}
+und den Koeffizienten $c_i$ dargestellt werden kann. Das Gleichungssystem für alle $P(x_i)$ besitzt dadurch die Form
+\[
+\begin{pmatrix}
+1 & 0 & \dots & & & 0\\
+1 & (x_1-x_0) & 0 & \dots & & \\
+1 & (x_2-x_0) & (x_2-x_0)(x_2-x_1) & 0 & \dots & \\
+\vdots & \vdots & \vdots & \ddots & &\vdots   \\
+1 & (x_t-x_0) & \dots & & & \prod_{i=0}^{t-1}(x_n-x_i)
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+c_0\\
+c_1\\
+\vdots\\
+c_n
+\end{pmatrix}
+=
+\begin{pmatrix}
+P(x_0)\\
+P(x_1)\\
+\vdots\\
+P(x_n)
+\end{pmatrix}
+.
+\]
+Das Ergebnis ist eine einfach strukturierte untere Dreiecksmatrix und lässt sich demnach einfach lösen. Auch hier gilt der Fundamentalsatz der Algebra. Folglich existiert ein solches Polynom stets und ist eindeutig bestimmbar. Diese Darstellung wird als Newton'sches Interpolationspolynom in der Newton'schen Darstellung bezeichnet.
+
+\subsubsection{Effiziente Bestimmung der Koeffizienten mit dem Schema der dividierten Differenzen}
+Die Koeffizienten $c_i$ in \eqref{eq:newton_formel} können mit Hilfe des Schemas der dividierten Differenzen effizienter bestimmt werden. Für die Koeffizienten gilt
+\begin{align}
+c_i \coloneqq P[x_0,\dots,x_i],
+\end{align}
+wobei $i<j$ und die dividierten Differenzen $P[x_i,\dots,x_j]$ rekursiv durch
+\begin{align}
+\label{eq:newton_coef_first}
+P[x_i] & \coloneqq P(x_i)\\
+\label{eq:newton_coef_second}
+P[x_i,\dots,x_j] & \coloneqq \frac{P[x_{i+1},\dots,x_j]-P[x_i,\dots,x_{j-1}]}{x_j - x_i}
+\end{align}
+definiert werden.
+\newpage
+Die Berechnung der Koeffizienten lässt sich wie folgt veranschaulichen:
+\[
+\begin{array}{crcrccrcrc}
+P[x_0] \\
+       & \searrow \\{}
+P[x_1] & \rightarrow  & P[x_0,x_1]  \\
+       & \searrow     &                & \searrow     \\{}
+P[x_2] & \rightarrow  & P[x_1,x_2]     & \rightarrow & P[x_0,x_1,x_2] \\{}
+ \vdots & \vdots      & \vdots         & \vdots    & \vdots  &\ddots \\{}
+  & \searrow     &                & \searrow    & &              & \searrow \\{}
+P[x_{t-1}] & \rightarrow  & P[x_{t-2},x_{t-1}] & \rightarrow & P[x_{t-3},x_{t-2},x_{t-1}]
+  & \cdots & \rightarrow & P[x_0\ldots x_{t-1}]  \\
+  & \searrow     &                & \searrow    & &              & \searrow && \searrow\\{}
+P[x_t] & \rightarrow  & P[x_{t-1},x_t] & \rightarrow & P[x_{t-2},x_{t-1},x_t]
+  & \cdots & \rightarrow & P[x_1\ldots x_t] & \rightarrow & P[x_0\ldots x_t]
+\end{array}
+\]
+Dabei entspricht die obere Diagonale genau den gesuchten Koeffizienten $c_i$ für das Polynom $P$. Hierbei fällt auf, dass bei Hinzunahme eines weiteren Wertepaars ($x_{t+1}, y_{t+1}$) lediglich die neu hinzukommende Zeile neu berechnet werden muss, um den zusätzlichen Koeffizienten $c_{t+1}=P[x_0,\dots,x_t]$ ermitteln zu können. Die zuvor bestimmten Koeffizienten $c_0,\dots,c_t$ müssen nicht erneut berechnet werden. Später wird gezeigt, wann diese Eigenschaft der Newton-Interpolation im Naor-Pinkas-Verfahren von Vorteil sein kann.
+
+%% ==============================
+\subsection{Newton-Interpolation im Naor-Pinkas-Verfahren}
+\label{ch:np-revocation-schema:sec:Newton}
+%% ==============================
+In diesem Abschnitt wird beschrieben, wie im Naor-Pinkas-Verfahren die Newton-Interpolation angewendet werden kann.\\
+\hspace*{0.45cm}Hierzu sei $P$ wieder ein vom Gruppencontroller zufällig generiertes Polynom vom Grad $t$ über $\mathbb Z_q$ und $K_{u_i} = <I_{u_i}, P(I_{u_i})>$ die über einen privaten Kanal versendete persönliche Information des Empfängers $u_i$ mit $i \in [1,\dots,|\mathcal N|]$. Ferner wählt der Gruppencontroller vor der Übertragung der Nachricht ein zufälliges $r \in \mathbb Z_q$ und setzt $g^{rP(0)}$ als neuen Schlüssel $\mathcal S$. Im nächsten Schritt versendet der Gruppencontroller folgenden Inhalt in Klartext an alle Empfänger $u \in \mathcal N$:
+\[
+<g^r, g^{rP(I_{u_1})}, g^{rP(I_{u_2})}, \dots ,g^{rP(I_{u_t})}, I_{u_1},  I_{u_2}, \dots,  I_{u_t}>.
+\]
+Mit Hilfe der Newton-Interpolation soll jeder Empfänger $u_0 \in \mathcal N \setminus \mathcal R$ das vom Gruppencontroller generierte Polynom eindeutig bestimmen können. Hierzu soll der Teilnehmer $u_0$ das Polynom an der Stelle $\mathcal S=(g^r)^{P(0)}$ bestimmen können:
+\begin{align*}
+\mathcal S & = (g^r)^{P(0)}\\
+& = (g^r)^{\sum_{i=0}^t N_i \cdot c_i}\\
+& = \prod_{i=0}^t g^{r \cdot N_i \cdot c_i}.
+\end{align*}
+Zu diesem Zweck berechnet $u_0$ den Wert $(g^r)^{P(I_{u_0})}$ und alle notwendigen Newton-Basisfunktionen
+\begin{align}
+\label{eq:newton_np_n_is}
+N_i \coloneqq N_i(0) = \prod_{j=0}^{i-1} - I_{u_j} = (-1)^i \prod_{j=0}^{i-1} I_{u_j}.
+\end{align}
+
+Die Koeffizienten $c_i$ werden in der Newton-Interpolation mit Hilfe der rekursiven Formeln \eqref{eq:newton_coef_first} und \eqref{eq:newton_coef_second} ermittelt. Diese direkte Berechnung ist jedoch im Naor-Pinkas-Verfahren nicht möglich, da den Teilnehmern die notwendigen Stützwerte $P(I_{u_i})$ nicht bekannt sind. Durch geschicktes Umformen kann das Polynom an der Stelle $\mathcal S$ berechnet werden. Diese sieht beim Koeffizient $c_0$ folgendermaßen aus:
+\begin{align}
+  \label{eq:newton-c0-new}
+  g^{r \cdot c_0 \cdot N_0} & = (g^{r \cdot P(I_{u_0})})^{N_0}
+\end{align}
+Alle notwendigen Werte sind bekannt. Beim Koeffizient $c_1$ sieht die Umformung wie folgt aus:
+\begin{align}
+  g^{r \cdot c_1 \cdot N_1} & = g^{r \cdot P[I_{u_0},I_{u_1}] \cdot N_1}\notag\\
+  & = g^{ r \cdot \frac{P(I_{u_1})-P(I_{u_0})}{I_{u_1}-I_{u_0}} \cdot N_1 }\notag\\
+  & = g^{r \cdot (\frac{P(I_{u_1})}{I_{u_1}-I_{u_0}} - \frac{P(I_{u_0})}{I_{u_1}-I_{u_0}}) \cdot N_1 }\notag\\
+  & = \left( (g^r)^{ \frac{P(I_{u_1})}{I_{u_1}-I_{u_0}} - \frac{P(I_{u_0})}{I_{u_1}-I_{u_0}} } \right) ^ {N_1}\notag\\
+  & = \left( \frac{(g^r)^{ \frac{P(I_{u_1})}{I_{u_1}-I_{u_0}}}}{ (g^r)^{ \frac{P(I_{u_0})}{I_{u_1}-I_{u_0}} }} \right) ^{N_1}\notag\\
+  \label{eq:newton-c1-new}
+  & = \left( \frac{ g^{r\cdot P(I_{u_1})} }{ g^{r\cdot P(I_{u_0})}} \right) ^{ \frac{N_1}{I_{u_1}-I_{u_0}} }
+\end{align}
+Aufgrund der vom Gruppencontroller übertragenen Nachricht sind alle Werte bekannt. Diese Umformungen müssen für alle $c_i$ durchgeführt werden. Es gilt:
+\begin{align}
+  \label{eq:newton-ci-new}
+  g^{r \cdot P[I_{u_0},\ldots,I_{u_i}]}& =
+  \frac{
+    \left( \frac{ g^{r \cdot P(I_{u_i})}}{g^{r \cdot P(I_{u_{i-1}})}} \right) ^{\frac{N_i}{ (I_{u_i}-I_{u_0}) \cdots (I_{u_i}-I_{u_{i-1}})}}
+  } {\vdots}
+  \notag\\
+  % \\
+  % & \hspace*{0.50cm} \rule{3.65cm}{0.6pt}
+  % \\
+  & \hspace*{0.45cm} \frac{\hspace*{0.35cm} \vdots}
+  {
+    \left( \frac{ g^{r \cdot P(I_{u_1})}}{g^{r \cdot P(I_{u_0})}} \right) ^{\frac{N_i}{ (I_{u_i}-I_{u_0}) \cdots (I_{u_1}-I_{u_0})}}
+  }
+\end{align}
+Folglich besitzt ein Empfänger $u_0 \in \mathcal N \setminus \mathcal R$ alle notwendigen Informationen um das Polynom eindeutig lösen und an der Stelle $x=0$ auswerten zu können.
+
+
+%% ==============================
+\subsection{Aufwand}
+\label{ch:np-revocation-schema:sec:newton-overflow}
+%% ==============================
+Um den Rechenaufwand der Newton-Interpolation im Naor-Pinkas-Verfahren ermitteln zu können, werden die jeweiligen Berechnungsschritte eines Empfängers genauer analysiert. Die Formel für die Berechnung einer einzelnen Newton-Basisfunktion für $i>0$ lautet:
+\[
+N_i = (-1)^i \prod_{j=0}^{i-1} x_j.
+\]
+Für $i=0$ muss nichts berechnet werden. Für $i>0$ werden $i$ M und $1$ E benötigt. Ferner muss diese Rechnung für alle $t$ unerlaubten Empfänger bestimmt werden. Der Aufwand wird dementsprechend erweitert:
+\begin{align}
+\label{eq:newton-aufwand-basis}
+\sum_{i=1}^{t} \left( i\cdot M + E \right) & = t\cdot E + \sum_{i=1}^t i\cdot M
+\end{align}
+Sind die einzelnen Newton-Basisfunktionen bestimmt, berechnet der Empfänger $u_0$ mit Hilfe seiner persönlichen Information $(g^r)^{P(I_{u_0})}$, was offensichtlich 1 E kostet.\\
+\\
+Für den restlichen Aufwand müssen, Aufgrund der Umformung für die Berechnung der Koeffizienten, die notwendigen Schritte genauer betrachtet werden. Für den Koeffizienten $c_0$ gilt:
+\begin{align*}
+  g^{r \cdot c_0 \cdot N_0} \stackrel{\eqref{eq:newton-c0-new}}{=} (g^{r \cdot P(I_{u_0})})^{N_0}.
+\end{align*}
+Diese Berechnung kostet dem Empfänger 1 E. Für den Koeffizienten $c_1$ sieht dies folgendermaßen aus:
+\begin{align*}
+  g^{r \cdot c_1 \cdot N_1} \stackrel{\eqref{eq:newton-c1-new}}{=} \left( \frac{ g^{r\cdot P(I_{u_1})} }{ g^{r\cdot P(I_{u_0})}} \right) ^{ \frac{N_1}{I_{u_1}-I_{u_0}} }
+\end{align*}
+Aufgrund der bekannten Werte $g^{r\cdot P(I_{u_1})}$ und $g^{r\cdot P(I_{u_0})}$ beträgt der Aufwand 1A, 2 D und 1 E. Für $c_2$ erhalten wir mit Hilfe der Formel aus \eqref{eq:newton-ci-new}:
+\begin{align*}
+  g^{r \cdot c_2 \cdot N_2} =
+  \frac{
+    \left(
+      \frac{
+        g^{r\cdot P(I_{u_2})}
+      }{
+        g^{r\cdot P(I_{u_1})}
+      }\right)^{\frac{N_2}{(I_{u_2}-I_{u_0})(I_{u_2}-I_{u_1})}}
+  }{
+    \left(
+      \frac{
+        g^{r\cdot P(I_{u_1})}
+      }{
+        g^{r\cdot P(I_{u_0})}
+      }\right)^{\frac{N_2}{(I_{u_2}-I_{u_0})(I_{u_1}-I_{u_0})}}
+  }
+\end{align*}
+was folgenden Berechnungsaufwand kostet:
+\begin{align*}
+  3\cdot D + 2\cdot (2A+1M+1D+1E).
+\end{align*}
+Allgemein auf einen Koeffizienten $c_i$ mit $i>0$ bezogen ergibt sich dementsprechend der Aufwand:
+\begin{align*}
+  (2^i-1)\cdot D + i\cdot (iA+(i-1)M+1D+1E).
+\end{align*}
+Aufgrund der Umformungen benötigt ein Empfänger $u_0$ für die Berechnung:
+\begin{align}
+  \label{eq:newton-aufwand-koef}
+  1E +\sum_{i=1}^{t} \left( i\cdot \left( iA + \left( i-1 \right) M + 1D +1E \right) +(2^i-1)\cdot D \right)
+\end{align}
+Der Gesamtaufwand für die Newton-Interpolation im Naor-Pinkas-Verfahren für einen einzelnen Empfänger $u_0$ beträgt nach \eqref{eq:newton-aufwand-basis} und \eqref{eq:newton-aufwand-koef} insgesamt
+\begin{align}
+\label{eq:newton-aufwand-gesamt}
+  & 1E +\sum_{i=1}^{t} \left( i\cdot M + E \right) +1E+\sum_{i=1}^{t} \left( i\cdot \left( iA + \left( i-1 \right) M + 1D +1E \right) +(2^i-1)\cdot D \right)\notag\\
+  & = (t+2)\cdot E+ \sum_{i=1}^{t} \left( i\cdot (iA+iM+1D+1E)+(2^i-1)\cdot D\right)
+\end{align}
+
+
+% hier ansetzen
+% 1\newline
+% 2\newline
+% 3\newline
+% 4\newline
+% 5\newline
+% Die fehlenden Koeffizienten $c_i$ werden über die Formel
+% \[
+% P[I_{u_i},\dots,I_{u_j}] = \frac{P[I_{u_{i+1}},\dots,I_{u_j}]-P[I_{u_i},\dots,I_{u_{j-1}}]}{I_{u_j} - I_{u_i}}
+% \]
+% berechnet. Hierzu werden $2$ A und $1$ D benötigt. Aber wie oft muss diese Formel ausgeführt werden? Dazu betrachten wir die folgende Veranschaulichung für $t=2$:\\
+% \[
+% \begin{array}{crcrc}
+% P[x_0] \\
+%        & \searrow \\{}
+% P[x_1] & \rightarrow  & P[x_0,x_1]  \\
+%        & \searrow     &                & \searrow     \\{}
+% P[x_2] & \rightarrow  & P[x_1,x_2]     & \rightarrow & P[x_0,x_1,x_2] \\{}
+% \end{array}
+% \]
+% In diesem Fall müssen drei Werte explizit berechnet werden, wodruch ein Aufwand von $6$ A und \mbox{$3$ D} entsteht. Für $t=3$ sieht die Veranschaulichung wie folgt aus:
+% \[
+% \begin{array}{crcrcrc}
+% P[I_{u_0}] \\
+%        & \searrow \\{}
+% P[I_{u_1}] & \rightarrow  & P[I_{u_0},I_{u_1}]  \\
+%        & \searrow     &                & \searrow     \\{}
+% P[I_{u_2}] & \rightarrow  & P[I_{u_1},I_{u_2}]     & \rightarrow & P[I_{u_0},I_{u_1},I_{u_2}]  \\{}
+%        & \searrow     &                & \searrow    &                & \searrow \\{}
+% P[I_{u_3}] & \rightarrow  & P[I_{u_2}, I_{u_3}]    & \rightarrow & P[I_{u_1},I_{u_2},I_{u_3}] & \rightarrow & P[I_{u_0},I_{u_1},I_{u_2},I_{u_3}]
+% \end{array}
+% \]
+% Hierzu müssen sechs Werte explizit berechnet werden, was einen Aufwand von $12$ A und $6$ D bereitet. Führen wir das fort, erhalten wir bei $t$ Stützstellen einen Aufwand von
+% \begin{align}
+% \label{eq:newton-aufwand-koef}
+% t \cdot (t+1)\,A + \frac{t\cdot (t+1)}{2}\,D + 1\cdot\,E.
+% \end{align}
+% Der Aufwand für die Newton-Interpolation im Naor-Pinkas-Verfahren für einen einzelnen Empfänger $u_0$ beträgt nach \eqref{eq:newton-aufwand-basis} und \eqref{eq:newton-aufwand-koef} insgesamt
+% \begin{align}
+% \label{eq:newton-aufwand-gesamt}
+% \left( \frac{t\cdot (t+1)}{2} \right)\,M + \left( \frac{t\cdot(t+1)}{2} \right)\,D + t\cdot(t+1)\,A+(t+1)\,E.
+% \end{align}
+
+\subsection{Fazit}
+\label{ch:np-revocation-schema:sec:newton-fazit}
+
+Die Newton-Interpolation ist für den praktischen Einsatz eher geeignet, da diese sich numerisch sehr einfach anwenden lässt und im Vergleich zur Lagrange-Interpolation mit weniger Aufwand zum gleichen Ergebnis kommt.\\
+\hspace*{0.45cm}Das Ändern einer Stützstelle führt nicht zur kompletten Neuberechnung der Koeffizienten, da sich die rekursiv definierten Werte lediglich ab der Position der neuen Stützstelle ändern. Dies ist besonders dann von Vorteil, wenn die Menge $|\mathcal R| < t$ und viele Dummy-Benutzer mit der Zeit durch echte, unerlaubte Empfänger ersetzt werden sollen.\\
+\hspace*{0.45cm}Zudem sind die Newton-Basisfunktionen nicht von den Stützwerten abhängig. Daher können in einem Zeitraum ohne Veränderung der Menge $\mathcal R$ die Werte beim Empfänger gespeichert werden, sodass diese nicht erneut berechnet und übertragen werden müssen. Aufgrund dieser Eigenschaft lässt sich der Aufwand auf den Wert aus \eqref{eq:newton-aufwand-koef} reduzieren. Unter anderem entfallen in diesem speziellen Fall die teuren Exponentenberechnungen.\\
+\hspace*{0.45cm}Jedoch besitzt die Newton-Interpolation den Nachteil, dass viele Zwischenergebnisse für die Berechnung der Koeffizienten gespeichert werden müssen. Dies kann vor allem bei zustandslosen Empfängern mit beschränkter Speichermöglichkeit zu einem Problem führen.

@@ -1,0 +1,113 @@
+%% Encoding: ISO8859-1 %%
+
+\chapter{Asmuth-Bloom-Verfahren}
+\label{ch:ab}
+%% ==============================
+
+In diesem Abschnitt wird ein kurzer Einblick in das Asmuth-Bloom-Verfahren \cite{ks07} gegeben, welches den aus der Zahlentheorie bekannten chinesischen Restsatz anwendet. Hierzu werden jedoch einige Vorkenntnisse benötigt.
+
+\section{Simultane Kongruenzen ganzer Zahlen}
+\label{ch:ab:sec:cr:sub:sim_kon}
+
+Eine simultane Kongruenz ganzer Zahlen ist ein System von linearen Kongruenzen
+\[
+\begin{matrix}
+x & \equiv & a_1 & \pmod{m_1} \\
+x & \equiv & a_2 & \pmod{m_2} \\
+  & \vdots &     &            \\
+x & \equiv & a_n & \pmod{m_n}, \\
+\end{matrix}
+\]
+wofür der unbekannte Wert $x$ für alle Kongruenzen bestimmt werden soll, falls solch ein Wert überhaupt existiert. Wenn eine Lösung $x$ existiert, dann sind $\mathcal M \coloneqq kgV(m_1,\dots,m_n)$ und die Zahlen $x+k\mathcal M$ mit $k\in \mathbb Z$ alle Lösungen dieses Systems.
+
+\section{Chinesischer Restsatz}
+\label{ch:ab:sec:cr}
+
+Mit Hilfe des chinesischen Restsatzes kann unter gewissen Einschränkungen eine Aussage über simultane Kongruenzen getroffen werden. Dabei seien $m_1,\dots,m_n$ paarweise teilerfremde, natürliche Zahlen. Dann existiert für beliebige Zahlen $a_1,\dots,a_n \in \mathbb Z$ eine Zahl $x$, die das folgende System von linearen Kongruenzen mit $i = 1, \dots, n$ erfüllt:
+\[
+x \equiv a_i \mod m_i
+\]
+Alle Lösungen sind kongruent modulo $\mathcal M \coloneqq m_1m_2\cdots m_n$.
+
+Das Finden einer Lösung erfolgt mit dem erweiterten euklidischen Algorithmus, wobei zwei Zahlen $r_i$ und $s_i$ berechnet werden, sodass die Gleichung
+\[
+r_i \cdot m_i + s_i \cdot \mathcal M_i = 1
+\]
+stimmt. Ferner gilt durch $e_i \coloneqq s_i\cdot M_i$
+\[
+e_i \equiv 1 \mod m_i
+\]
+\[
+e_i \equiv 0 \mod m_j
+\]
+für $j \neq i$. Die Lösung der simultanen Kongruenz ist dann:
+\begin{align}
+x \coloneqq \sum_{i=1}^n a_i e_i \ .
+\end{align}
+
+\section{Asmuth-Bloom-Secret-Sharing-Schema}
+\label{sec:ashmuth_bloom_secret_sharing_scheme}
+
+Im Asmuth-Bloom-Secret-Sharing-Schema werden zwei Phasen benötigt, um das Geheimnis verteilen und rekonstruieren zu können.
+\begin{itemize}
+  \item
+  \textbf{Initialisierungsphase}\\
+  Um ein Geheimnis $\mathcal S$ an eine Menge von $n$ Empfängern versenden zu können, muss der Gruppencontroller eine Menge von paarweisen teilerfremden Zahlen $m_0 < m_1 < \dots < m_n$ mit $m_0 > \mathcal S$ auswählen, sodass folgende Ungleichung gilt:
+  \begin{align}
+    \label{ab-bedingung}
+    \prod_ {i=1}^t m_i > m_o \prod_{i=1}^{t-1} m_{n-i+1}
+  \end{align}
+  Fernser sei $\mathcal M \coloneqq \prod_{i=1}^{t}m_i$. Der Gruppencontroller berechnet
+  \[
+    y=\mathcal S + Am_0\ ,
+  \]
+  wobei $A$ eine positive, zufällig ausgewählte Zahl ist, sodass die Bedingung $0 \leq y < \mathcal M$ erfüllt wird. Im nächsten Schritt erhält der $i$-te Empfänger vom Gruppencontroller sein ihm zugewiesenes Share
+  \[
+    y_i = y \mod \ m_i\ .
+  \]
+  \item
+  \textbf{Kombinierungsphase}\\
+  Sei $\mathcal N'$ eine Vereinigung von $t < n$ Empfängern, welche das Geheimnis rekonstruieren sollen. Ferner sei $M_{\mathcal N'} \coloneqq \prod_{i\in \mathcal N'}m_i$. Gegeben dem System von Kongruenzen
+  \[
+    y \equiv y_i \mod{m_i}
+  \]
+  für $i \in \mathcal N'$ soll $y$ aus $\mathbb Z_{\mathcal M_{\mathcal N'}}$ mit Hilfe des chinesischen Restsatzes bestimmt werden. Dabei ist das Geheimnis
+  \[
+    \mathcal S = y \mod m_0.
+  \]
+\end{itemize}
+Aufgrund des chinesischen Restsatzes kann $y$ eindeutig in $\mathbb Z_{\mathcal M_{\mathcal N'}}$ bestimmt werden. Zudem ist auch die Lösung wegen $y<\mathcal M \leq \mathcal M_{\mathcal N'}$ in $\mathbb Z_{\mathcal M}$ eindeutig.
+
+Das Schema ist sicher, solange eine Vereinigung von maximal $t-1$ unerlaubten Empfängern sichergestellt wird. Eine detaillierte Analyse der Sicherheit kann in der veröffentlichten Arbeit von Quisquater et al. \cite{qpv02} nachgelesen werden. In dieser wird unter anderem das Asmuth-Bloom- und weitere Secret-Sharing-Schemas basierend auf dem chinesischen Restsatz analysiert.
+\newpage
+
+\section{Ausblick: Anwendung des Naor-Pinkas-Schemas}
+
+Die Anwendung des Naor-Pinkas-Schemas im Asmuth-Bloom-Verfahren bringt eine Problematik mit sich. Der für die Berechnung notwendige Wert $y_i$ des Empfängers $i$ kann lediglich vom Gruppencontroller bestimmt werden, da nur ihm der Session-Schlüssel $y = \mathcal S + Am_0$ bekannt ist. Im Umkehrschluss bedeutet das, dass der Gruppencontroller vor der Übertragung der Nachricht jedem erlaubten Empfänger seinen Share, beispielsweise über einen privaten Kanal, mitteilen müsste. Hierbei würde das Revocation-Schema deutlich an Effizienz und Schnelligkeit verlieren.\\
+\hspace*{0.45cm}Beim Naor-Pinkas-Schema kann jeder erlaubte Empfänger $i$ anhand der Übermittlung von $g^r$ und der gespeicherten Information $P(I_i)$ den erforderlichen ($t+1$)-ten Wert $g^{rP(I_i)}$ für die eindeutige Bestimmung des Polynoms ermitteln. Dies ist im Asmuth-Bloom-Verfahren nicht möglich, da der Wert $y_i$ direkt über den Session-Schlüssel mit Hilfe einer Modulo-Operation berechnet wird.\\
+\\
+Kann jedoch das Naor-Pinkas-Schema im Asmuth-Bloom-Verfahren angewendet werden, falls jeder erlaubter Empfänger $i$ seinen persönlichen Share $y_i$ kennt?\\
+\hspace*{0.45cm}Angenommen das Geheimnis $\mathcal S$ wird mit Hilfe eines Generators $g$ und einem beliebigen und zufälligen Wert $r$ in den Expontenten verlagert, sodass der neue Schlüssel durch $g^{rS}$ definiert wird. Zudem existieren paarweise, teilerfremde Zahlen $m_0 < m_1 < \dots < m_n$, wobei $m_0 > \mathcal S$ gilt. Aufgrund der letzt genannten Bedingung könnte durch das Verlagern des Schlüssels in den Exponenten das Finden der Werte $m_1, \dots, m_n$ aufwendiger werden als geplant, da bereits der Startwert $m_0$ groß sein kann. Ferner berechnet der Gruppencontroller $y=\mathcal S + Am_0$. Zuzüglich seien die Ungleichung aus \ref{ab-bedingung} und die Bedingung $0 \leq y < \mathcal M$ erfüllt. Das gewünschte Ziel ist, die gleiche Übertragung wie beim Naor-Pinkas-Schema zu erreichen:
+\begin{align*}
+<g^r, g^{r\,y_{u_1}}, g^{r\,y_{u_2}}, \dots ,g^{r\,y_{u_t}}, m_{u_1},  m_{u_2}, \dots,  m_{u_t} >.
+\end{align*}
+Dies ist jedoch Aufgrund der Modulo-Eigenschaft nicht ohne weiteres möglich. Hierzu wird die Berechnung eines einzelnen Shares $y_i$ genauer betrachtet:
+\begin{align*}
+  y_i = y \mod m_i
+\end{align*}
+Um den eindeutigen Wert $y$ bestimmen zu können, wird ein Kongruenzsystem von $t$ Kongruenzen benötigt:
+\begin{align*}
+  y \equiv y_i \mod m_i.
+\end{align*}
+Einem Empfänger wird bei der übertragenen Nachricht jedoch nur die in den Exponenten verlagerten Shares übermittelt. Dieser müsste folglich folgende Berechnung
+\begin{align*}
+  y \equiv g^{r\,y_i} \mod m_i
+\end{align*}
+durchführen. Dies führt jedoch nicht zum gewünschten Ergebnis. Anders ausgedrückt benötigt jeder Empfänger die für die Berechnung notwendigen Shares der anderen Empfänger in Klartext. Das Revocation-Schema von Naor und Pinkas kann daher nicht ohne weiteres in das Asmuth-Bloom-Verfahren eingebaut werden.
+\newpage
+\section{Fazit}
+
+Das vorgenommene Ziel konnte im Rahmen dieser Studienarbeit nicht erreicht werden. Zum einen liegt das an den Shares, welche nur beim Gruppencontroller berechnet und übermittelt werden können. Das Nichtwissen des persönlichen Geheimnisses könnte relativ einfach durch Hinzunahme eines weiteren Kommunikationsweges mit dem Empfänger gelöst werden, was jedoch die Effizienz des Verfahrens verlangsamen würde. Zum anderen führen die notwendigen Bedingungen dazu, dass der Aufwand für die Suche nach geeigneten, paarweisen teilerfremden Zahlen, durch das Verlagern des Schlüssels in den Exponenten, steigen.\\
+\hspace*{0.45cm}Das Ziel im Revocation-Schema von Naor und Pinkas hatte den Ursprung, dass der Schlüssel im Shamir's Secret-Sharing-Verfahren nach einmaliger Berechnung im Klartext bestimmt werden konnte. Aufgrund dieser Situation wurde der Schlüssel und die notwendigen Shares $P(I_i)$ in den Exponenten verlagert. Anhand der mathematischen Eigenschaft der Lagrange-Interolation konnte dies geschickt ausgenutzt werden. Dies ist im Asmuth-Bloom-Verfahren nicht nötig, da der Session-Schlüssel bereits durch das Addieren von $Am_0$ geheim gehalten wird.\\
+\hspace*{0.45cm}Ein weiterer Nachteil des Verfahrens wird beim Finden von paarweise teilerfremde Zahlen bemerkbar, wenn die Anzahl an Teilnehmern groß ist. Die im Abschnitt \ref{sec:ashmuth_bloom_secret_sharing_scheme} definierten Bedingungen müssen zu jederzeit erfüllt werden. Beim Naor-Pinkas-Verfahren muss der Gruppencontroller lediglich eine Bedingung erfüllen: Eine Stützstelle darf nicht an zwei verschiedenen Teilnehmer vergeben werden. Hierbei fallen bis auf die Suche, ob die Stützstelle bereits vergeben wurde, keine weiteren Kosten an.\\
+\hspace*{0.45cm}Trotz den Nachteilen im Bezug zum Naor-Pinkas-Schema stellt das Asmuth-Bloom-Verfahren eine interessante Grundlage für ein praktisches Secret Sharing dar. In der veröffentlichten Arbeit von Kaya und Sel\c{c}uk \cite{ks07} können weitere interessante Methoden zum Asmuth-Bloom-Verfahren nachgelesen werden. Unter anderem wird in der Arbeit die Verteilung der Shares mit Hilfe der RSA-Funktion im Asmuth-Bloom-Verfahrens näher untersucht.

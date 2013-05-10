@@ -1,0 +1,36 @@
+%% Encoding: ISO8859-1 %%
+
+\chapter{Einleitung}
+\label{ch:Einleitung}
+
+%% ==============================
+\section{Motivation}
+%% ==============================
+\label{ch:Einleitung:sec:Motivation}
+In der heutigen Welt sind Multicast-Übertragungen durch die immer weiter steigende Nachfrage nach Pay-TV, Multimedia-Anwendungen und dem zur Verfügungstellen von geschützten Inhalten zu einem sehr wichtigen und zentralen Thema geworden; denn digitale Medien sind einfach zu kopieren und zu verteilen. Dies führt zu vielen nützlichen Programmen, gleichzeitig wird aber das illegale Kopieren von digitalen Inhalten wie Musik, Videos oder Software zu einem nicht mehr zu vernachlässigbarem Problem. Dies betrifft die unterschiedlichsten Formen der digitalen Verbreitung, wie beispielsweise DVDs, Satelliten- und Kabelfernsehen. Daher ist es erforderlich digitale Inhalte zu verschlüsseln, um unerlaubten Empfängern die Möglichkeit zu nehmen den Inhalt illegal zu verbreiten.\\
+\hspace*{0.45cm}Im Gegensatz zu Punkt-zu-Punkt-Verbindungen sind die zu treffenden Sicherheitsmaßnahmen bei Multicast-Übertragungen deutlich komplexer und erfordern andere Denkansätze. Dabei handelt es sich um das folgende Problem: Wie kann ein Sender einer vordefinierten und sich ständig ändernden Menge an Empfängern verschlüsselte Nachrichten zusenden und gleichzeitig den Inhalt vor unerlaubten Empfängern schützen?\\
+\hspace*{0.45cm}Naor und Pinkas \cite{np00} haben auf der Suche nach dieser Antwort mit Hilfe der aus der numerischen Mathematik bekannten Polynominterpolation ein Revocation-Schema entwickelt. Ein Revocation-Schema beschreibt die Möglichkeit, einer Teilmenge von Teilnehmern die Berechtigung zu entziehen, den geheimen Schlüssel und damit verbunden die entschlüsselte Nachricht ermitteln zu können.
+
+%% ==============================
+\section{Zielsetzung}
+%% ==============================
+\label{ch:Einleitung:sec:Zielsetzung}
+In dieser Studienarbeit wird die oben genannte Fragestellung genauer untersucht, jedoch mit dem Zusatz, andere Ansätze zu finden. Dabei wurde im ersten Analyseschritt der Teil, der die für die Entschlüsselung notwendigen Informationen enthält, genauer betrachtet. An dieser Stelle wurde überprüft, ob andere Interpolationsverfahren in diesem Schema angewendet werden können und welche Auswirkungen diese gegenüber der von Naor und Pinkas \cite{np00} eingesetzten \mbox{Polynominterpolation} haben. Von Interesse sind dabei die notwendigen Berechnungsschritte eines Empfängers, die ausgeführt werden müssen, um den geheimen Schlüssel bestimmen zu können.\\
+\hspace*{0.45cm}Zudem wird die Fragestellung herangezogen, ob das Naor-Pinkas-Schema in das Asmuth-Bloom-Secret-Sharing-Schema mit eingebunden werden kann. Letzteres verwendet den aus der Zahlentheorie bekannten chinesischen Restsatz anstelle der Polynominterpolation aus der \mbox{numerischen} Mathematik.
+
+%% ==============================
+\section{Verwandte Arbeiten}
+%% ==============================
+\label{ch:Einleitung:sec:Verwandte-Arbeiten}
+Viele hier durchgeführte Analysen basieren auf der von Naor und Pinkas \cite{np00} veröffentlichten Arbeit über ein Revocation-Schema mit Hilfe der Lagrange-Interpolation. In dieser Veröffentlichung wurden mehrere Möglichkeiten eines solchen Schemas ausführlich beschrieben. Die vorliegende Studienarbeit bezieht sich jedoch ausschließlich auf das vorgestellte \textit{Schema für viele Revocations}. Zusätzlich wurde in der vorgestellten Arbeit von Naor und Pinkas das Revocation-Schema mit einem sogenannten \textit{Self Enforcement} und \textit{Tracing} kombiniert. Letzteres wurde mit einem \textit{Black-Box-Confirmation-Test} realisiert, bei dem überprüft wird, ob es sich bei einem Teilnehmer um jemanden handelt, der unerlaubt digitalen Inhalt verbreitet oder seinen persönlichen Schlüssel an andere weitergegeben hat. Diese Teilnehmer werden als \textit{Traitors} bezeichnet.\\
+\hspace*{0.45cm}Eine weitere verwandte Arbeit zu diesem Thema ist die Veröffentlichung mit dem Titel \textit{Broadcast Encryption} von Fiat und Naor \cite{fn93}. Dabei werden grundlegende Schemata vorgestellt, die dem Gruppencontroller die \mbox{Möglichkeit} geben, die verschlüsselte Nachricht an eine beliebige und sich ständig ändernde Teilmenge von Empfängern zu versenden.\\
+\hspace*{0.45cm}Das Ziel in der von Kumar et al. \cite{krs99} veröffentlichten Arbeit ist dem von \mbox{Naor und Pinkas} vorgestellten Revocation-Schema sehr ähnlich. Jedoch ist es mit ihrer Methode (\textit{\mbox{one-time revocation}}) möglich, einer bestimmten Anzahl von unerlaubten Teilnehmern den Zugriff auf die geheime Information zu verwehren und gleichzeitig ist sie gegen eine vollständige Vereinigung aller \mbox{Unberechtigten} sicher.
+
+%% ==============================
+\section{Gliederung}
+%% ==============================
+\label{ch:Einleitung:sec:Gliederung}
+Der erste Abschnitt dieser Studienarbeit enthält eine ausführliche Beschreibung der Grundlagen, wobei das Hauptaugenmerk hierbei auf dem 1979 entwickelten Secret-Sharing-Verfahren von Adi Shamir liegt.\\
+\hspace*{0.45cm}Der nächste und umfangreichste Abschnitt behandelt das von Naor und Pinkas entwickelte Revocation-Schema mit dem Versuch, dieses mit verschiedenen Polynominterpolationen erfolgreich umzusetzen. Hierbei wird die im Naor-Pinkas-Revocation-Schema verwendete Lagrange-
+Interpolation detailliert beschrieben. Ferner wird versucht, die auf die Newton-Basis aufbauende Newton-Interpolation und die Spline-Interpolation erfolgreich anzuwenden und ihre Vor- und Nachteile gegenüberzustellen. Zudem wird der erforderliche Aufwand eines Teilnehmers bei den einzelnen Interpolationen ermittelt, der entsteht, um die geheime Information entschlüsseln zu können.\\
+\hspace*{0.45cm}Im letzten Abschnitt wird das Asmuth-Bloom-Verfahren genauer beschrieben. Ferner wird analysiert, ob das Naor-Pinkas-Schema mit dem Asmuth-Bloom-Verfahren kombiniert werden kann.

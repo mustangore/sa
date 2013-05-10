@@ -1,0 +1,41 @@
+\BOOKMARK [0][]{Inhaltsverzeichnis.0}{Inhaltsverzeichnis}{}% 1
+\BOOKMARK [0][]{chapter.1}{1 Einleitung}{}% 2
+\BOOKMARK [1][-]{section.1.1}{1.1 Motivation}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.2}{1.2 Zielsetzung}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.3}{1.3 Verwandte Arbeiten}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.4}{1.4 Gliederung}{chapter.1}% 6
+\BOOKMARK [0][]{chapter.2}{2 Grundlagen}{}% 7
+\BOOKMARK [1][-]{section.2.1}{2.1 Notationen und Definitionen}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.2}{2.2 Shamirs-Secret-Sharing-Schema}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.3}{2.3 Single-Revocation-Schema}{chapter.2}% 10
+\BOOKMARK [0][]{chapter.3}{3 Naor-Pinkas-Revocation-Schema}{}% 11
+\BOOKMARK [1][-]{section.3.1}{3.1 Verfahren}{chapter.3}% 12
+\BOOKMARK [2][-]{subsection.3.1.1}{3.1.1 Decisional-Diffie-Hellman-Annahme}{section.3.1}% 13
+\BOOKMARK [2][-]{subsection.3.1.2}{3.1.2 Schema f\374r viele Revocations}{section.3.1}% 14
+\BOOKMARK [2][-]{subsection.3.1.3}{3.1.3 Unerlaubte Empf\344ngermenge R}{section.3.1}% 15
+\BOOKMARK [2][-]{subsection.3.1.4}{3.1.4 Empf\344nger hinzuf\374gen}{section.3.1}% 16
+\BOOKMARK [2][-]{subsection.3.1.5}{3.1.5 Speicheraufwand}{section.3.1}% 17
+\BOOKMARK [2][-]{subsection.3.1.6}{3.1.6 Sicherheit}{section.3.1}% 18
+\BOOKMARK [1][-]{section.3.2}{3.2 Naor-Pinkas-Polynom-Interpolation mit Lagrange}{chapter.3}% 19
+\BOOKMARK [2][-]{subsection.3.2.1}{3.2.1 Lagrange-Interpolationsaufgabe f\374r Polynome}{section.3.2}% 20
+\BOOKMARK [2][-]{subsection.3.2.2}{3.2.2 Lagrange-Interpolation im Naor-Pinkas-Verfahren}{section.3.2}% 21
+\BOOKMARK [2][-]{subsection.3.2.3}{3.2.3 Aufwand}{section.3.2}% 22
+\BOOKMARK [2][-]{subsection.3.2.4}{3.2.4 Fazit}{section.3.2}% 23
+\BOOKMARK [1][-]{section.3.3}{3.3 Naor-Pinkas-Polynominterpolation mit Newton}{chapter.3}% 24
+\BOOKMARK [2][-]{subsection.3.3.1}{3.3.1 Newton-Interpolationsaufgabe f\374r Polynome}{section.3.3}% 25
+\BOOKMARK [2][-]{subsection.3.3.2}{3.3.2 Newton-Interpolation im Naor-Pinkas-Verfahren}{section.3.3}% 26
+\BOOKMARK [2][-]{subsection.3.3.3}{3.3.3 Aufwand}{section.3.3}% 27
+\BOOKMARK [2][-]{subsection.3.3.4}{3.3.4 Fazit}{section.3.3}% 28
+\BOOKMARK [1][-]{section.3.4}{3.4 Naor-Pinkas-Polynominterpolation mit kubischen Splines}{chapter.3}% 29
+\BOOKMARK [2][-]{subsection.3.4.1}{3.4.1 Kubische Splineinterpolation f\374r Funktionen}{section.3.4}% 30
+\BOOKMARK [2][-]{subsection.3.4.2}{3.4.2 Kubische Spline-Interpolation im Naor-Pinkas-Verfahren}{section.3.4}% 31
+\BOOKMARK [2][-]{subsection.3.4.3}{3.4.3 Fazit}{section.3.4}% 32
+\BOOKMARK [1][-]{section.3.5}{3.5 Vergleich der Interpolationsm\366glichkeiten}{chapter.3}% 33
+\BOOKMARK [0][]{chapter.4}{4 Asmuth-Bloom-Verfahren}{}% 34
+\BOOKMARK [1][-]{section.4.1}{4.1 Simultane Kongruenzen ganzer Zahlen}{chapter.4}% 35
+\BOOKMARK [1][-]{section.4.2}{4.2 Chinesischer Restsatz}{chapter.4}% 36
+\BOOKMARK [1][-]{section.4.3}{4.3 Asmuth-Bloom-Secret-Sharing-Schema}{chapter.4}% 37
+\BOOKMARK [1][-]{section.4.4}{4.4 Ausblick: Anwendung des Naor-Pinkas-Schemas}{chapter.4}% 38
+\BOOKMARK [1][-]{section.4.5}{4.5 Fazit}{chapter.4}% 39
+\BOOKMARK [0][]{chapter.5}{5 Zusammenfassung und Ausblick}{}% 40
+\BOOKMARK [0][]{section*.9}{Literaturverzeichnis}{}% 41
