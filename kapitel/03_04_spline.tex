@@ -10,12 +10,11 @@ Im Gegensatz zur Lagrange- und Newton-Interpolation wird bei der Spline-Interpol
   \begin{center}
     \includegraphics[width=0.7\textwidth]{images/spline} % IN UR THESIS
   \end{center}
-  \caption{Glättung durch Splines. Links: Streckenzug mit Hilfe von Geraden zwischen zwei Punkten. Rechts: Streckenzug mit Hilfe von kubischen Polynomen. (Daten von \emph{Gerhard Wanner}).}
+  \caption{Glättung durch Splines. Links: Streckenzug mit Hilfe von Geraden zwischen zwei Punkten. Rechts: Streckenzug mit Hilfe von kubischen Polynomen. (Daten aus \cite{c11} von \emph{Gerhard Wanner}).}
   \label{fig:cat}
 \end{figure}\\
-Was auf den ersten Blick auffällt: Aufgrund kubischer Parabeln entstehen für jedes Intervall $[x_i,x_{i+1}]$ vier unbekannte Koeffizienten $a_i, b_i, c_i$ und $d_i$. Bei $n$ verschiedenen Teilintervallen bedeutet das, dass mit Hilfe von $n$ Gleichungen $4n$ unbekannte Koeffizienten bestimmt werden sollen. Dies ist keine mögliche Aufgabe. Um alle Koeffizienten eindeutig bestimmen zu können, müssen weitere Bedingungen herangezogen werden. Die erste Bedingung ist, dass der ermittelte kubische Spline zweimal stetig differenzierbar sein muss. Dadurch wird ein durchgehender Polynomzug erzwungen. Eine weitere Bedingung ist, dass kubische Splines eine Minimalitätsbedingung für die zweite Ableitung erfüllen müssen, was sie gegenüber anderen Splines besonders interessant macht.\\
-\\
-Mathematisch formuliert wird nach einer Funktion \mbox{$s:[x_0, x_n] \rightarrow \mathbb R$} mit $x_0 < \dots < x_n$ und folgenden Eigenschaften gesucht:
+Was auf den ersten Blick auffällt: Aufgrund kubischer Parabeln entstehen für jedes Intervall $[x_i,x_{i+1}]$ vier unbekannte Koeffizienten $a_i, b_i, c_i$ und $d_i$. Bei $n$ verschiedenen Teilintervallen bedeutet das, dass mit Hilfe von $n$ Gleichungen $4n$ unbekannte Koeffizienten bestimmt werden sollen. Um alle Koeffizienten eindeutig bestimmen zu können, müssen weitere Bedingungen herangezogen werden. Die erste Bedingung ist, dass der ermittelte kubische Spline zweimal stetig differenzierbar sein muss. Dadurch wird ein durchgehender Polynomzug erzwungen. Eine weitere Bedingung ist, dass kubische Splines eine Minimalitätsbedingung für die zweite Ableitung erfüllen müssen, was sie gegenüber anderen Splines besonders interessant macht.\\
+\hspace*{0.45cm}Mathematisch formuliert wird nach einer Funktion \mbox{$s:[x_0, x_n] \rightarrow \mathbb R$} mit $x_0 < \dots < x_n$ und folgenden Eigenschaften gesucht:
 \begin{itemize}
 \item[(a)] $s(x_i) = y_i$ , $i=0,\dots, n$\ ,
 \item[(b)] $s \in C^2([x_0,x_n])$\ ,
@@ -140,7 +139,7 @@ Hierzu soll die in Abbildung \ref{fig:schluessel} definierte Situation mit den T
   \begin{center}
     \includegraphics[width=1\textwidth]{images/Punkt0} % IN UR THESIS
   \end{center}
-  \caption{Wertebereich der Spline-Interpolation. Links aus der Sicht des Empfängers $u_1$, rechts aus der Sicht des Empfängers $u_2$}
+  \caption{Wert des Schlüssels. Links aus der Sicht des Empfängers $u_1$, rechts aus der Sicht des Empfängers $u_2$}
   \label{fig:schluessel}
 \end{figure}
 

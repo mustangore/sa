@@ -29,7 +29,7 @@
 \contentsline {subsubsection}{Effiziente Bestimmung der Koeffizienten mit dem Schema der dividierten Differenzen}{14}{section*.4}
 \contentsline {subsection}{\numberline {3.3.2}Newton-Interpolation im Naor-Pinkas-Verfahren}{15}{subsection.3.3.2}
 \contentsline {subsection}{\numberline {3.3.3}Aufwand}{16}{subsection.3.3.3}
-\contentsline {subsection}{\numberline {3.3.4}Fazit}{17}{subsection.3.3.4}
+\contentsline {subsection}{\numberline {3.3.4}Fazit}{18}{subsection.3.3.4}
 \contentsline {section}{\numberline {3.4}Naor-Pinkas-Polynominterpolation mit kubischen Splines}{19}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}Kubische Splineinterpolation f\"ur Funktionen}{19}{subsection.3.4.1}
 \contentsline {subsubsection}{Fehlerabsch\"atzung f\"ur kubische Splines}{21}{section*.5}
@@ -37,7 +37,7 @@
 \contentsline {subsubsection}{Wertebereich des Splines}{21}{section*.6}
 \contentsline {subsubsection}{Wert des Schl\"ussels}{22}{section*.7}
 \contentsline {subsection}{\numberline {3.4.3}Fazit}{22}{subsection.3.4.3}
-\contentsline {section}{\numberline {3.5}Vergleich der Interpolationsm\"oglichkeiten}{23}{section.3.5}
+\contentsline {section}{\numberline {3.5}Vergleich der Interpolationsm\"oglichkeiten}{24}{section.3.5}
 \contentsline {chapter}{\numberline {4}Asmuth-Bloom-Verfahren}{25}{chapter.4}
 \contentsline {section}{\numberline {4.1}Simultane Kongruenzen ganzer Zahlen}{25}{section.4.1}
 \contentsline {section}{\numberline {4.2}Chinesischer Restsatz}{25}{section.4.2}
