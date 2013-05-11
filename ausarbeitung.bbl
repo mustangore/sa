@@ -53,6 +53,11 @@
 { \em Numerik Skript},
 \newblock pp. 644-654, 2011
 
+\bibitem[AB83]{ab83}
+{\sc C. Asmuth} \btxandlong{}\ {\sc J. Bloom},
+{\em A modular approach to key safeguarding},
+\newblock IEEE Trans. Information Theory, 208-210, 1983.
+
 \bibitem[KS07]{ks07}
 {\sc K. Kaya} \btxandlong{}\ {\sc A. Sel\c{c}uk},
 {\em Threshold cryptography based on Asmuth-Bloom secret sharing},

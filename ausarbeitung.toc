@@ -42,7 +42,7 @@
 \contentsline {section}{\numberline {4.1}Simultane Kongruenzen ganzer Zahlen}{25}{section.4.1}
 \contentsline {section}{\numberline {4.2}Chinesischer Restsatz}{25}{section.4.2}
 \contentsline {section}{\numberline {4.3}Asmuth-Bloom-Secret-Sharing-Schema}{26}{section.4.3}
-\contentsline {section}{\numberline {4.4}Ausblick: Anwendung des Naor-Pinkas-Schemas}{27}{section.4.4}
+\contentsline {section}{\numberline {4.4}Ausblick: Anwendung als Revocation-Schema}{27}{section.4.4}
 \contentsline {section}{\numberline {4.5}Fazit}{28}{section.4.5}
 \contentsline {chapter}{\numberline {5}Zusammenfassung und Ausblick}{29}{chapter.5}
 \contentsline {chapter}{Literaturverzeichnis}{31}{section*.8}
