@@ -1,7 +1,7 @@
 
-Das von M. Naor und B. Pinkas vorgestellte Verfahren stellt eine abstrakte Definition eines Revocation-Schemas dar. Die Hauptaufgabe des Verfahrens bezieht sich darauf, auf geschickte Art und Weise eine Verteilung des geheimen Schlüssels sicherzustellen, sodass aus einer beliebig großen Menge von erlaubten Empfängern bis zu maximal $t$ Empfänger ausgeschlossen werden können.
+Das in der Veröffentlichung von M. Naor und B. Pinkas \cite{np00} vorgestellte Verfahren stellt eine abstrakte Definition eines Revocation-Schemas dar. Die Hauptaufgabe des Verfahrens bezieht sich darauf, auf geschickte Art und Weise eine Verteilung des geheimen Schlüssels sicherzustellen, sodass aus einer beliebig großen Menge von erlaubten Empfängern bis zu maximal $t$ Empfänger ausgeschlossen werden können.
 
-In der vorgestellten Arbeit werden drei Schemata vorgestellt, um unerlaubten Teilnehmern den Zugriff auf den Schlüssel und somit auf den Inhalt zu verweigern. Dabei konzentriert sich diese Studienarbeit ausschließlich auf das zweite vorgestellte Schema aus Kapitel 2.2 in \cite{np00}.
+In der vorgestellten Arbeit werden drei Schemata vorgestellt um unerlaubten Teilnehmern den Zugriff auf den Schlüssel und somit auf den Inhalt zu verweigern. Dabei konzentriert sich diese Studienarbeit ausschließlich auf das zweite vorgestellte Schema aus Kapitel 2.2 in \cite{np00}.
 
 %% ==============================
 \section{Verfahren}
@@ -18,7 +18,7 @@ Gegeben sei eine endliche und zyklische Gruppe $\mathcal G$ mit einem Erzeuger $
 \subsection{Schema für viele Revocations}
 Das vorgestellte Schema aus Kapitel 2.2 der Veröffentlichung von Naor und Pinkas \cite{np00} ist über eine Untergruppe $\mathbb Z_q$ mit Ordnung $q$ in $\mathbb Z_p^*$ definiert, wobei $p$ eine Primzahl und $q|p-1$ definiert ist. Außerdem sei ein Erzeuger $g$ aus $\mathbb Z_q$ gegeben, sodass die Decisional Diffie-Hellman Annahme für $\mathbb Z_q$ und $g$ zutrifft.\\
 % Dieses Schema verwendet die zuvor veröffentlichte Idee von Feldman \cite{f87}, in der der erste Versuch beschrieben wurde, Shamirs-Secret-Sharing-Verfahren in den Exponenten zu verlagern.
-\hspace*{0.45cm}Dieses Schema kann für viele Revocations genutzt werden, solange verhindert wird, dass mehr als $t$ Teilnehmer ausgeschlossen werden sollen. Zudem wird später gezeigt, dass das Verfahren bis auf eine Vereinigung von ($t-1$) unerlaubte Teilnehmer sicher ist.\\
+\hspace*{0.45cm}Dieses Schema kann für viele Revocations genutzt werden, solange verhindert wird, dass mehr als $t$ Teilnehmer ausgeschlossen werden sollen. Zudem wird später gezeigt, dass das Verfahren bis auf eine Vereinigung von $t$ unerlaubte Teilnehmer sicher ist.\\
 \hspace*{0.45cm}Um das Schema umzusetzen, werden folgende zwei Phase benötigt:
 \begin{itemize}
   \item
@@ -31,8 +31,8 @@ Das vorgestellte Schema aus Kapitel 2.2 der Veröffentlichung von Naor und Pinkas
   \item
     \textbf{Revocation-Phase}\\
     In dieser Phase wird den unerlaubten Teilnehmern die Möglichkeit genommen, die vom Gruppencontroller übermittelte Nachricht zu ermitteln.\\
-    Dabei müssen die Identitäten der $t$ Teilnehmer $\mathcal R=\lbrace I_{u_1}, \dots, I_{u_t}\rbrace$ herausgefunden werden, die aus der Menge der erlaubten Empfänger ausgeschlossen werden sollen. Da dies nicht Teil des Revocation-Schemas ist, wird dies hier nicht näher erläutert.\\
-    Ist die unerlaubte Teilnehmermenge $\mathcal R$ bekannt, wählt der Gruppencontroller ein zufälliges, beliebiges $r \in \mathbb Z_q$ und setzt mit
+    Dabei müssen die Identitäten der $t$ Teilnehmer $\mathcal R=\lbrace I_{u_1}, \dots, I_{u_t}\rbrace$ herausgefunden werden, die aus der Menge der erlaubten Empfänger ausgeschlossen werden sollen. Da dies nicht Teil des Revocation-Schemas ist, wird dieser Prozess hier nicht näher erläutert. In der Veröffentlichung \cite{np00} kann das Verfahren im Kapitel 3.4 betrachtet werden.\\
+    Ist die unerlaubte Teilnehmermenge $\mathcal R$ bekannt, wählt der Gruppencontroller ein zufälliges, beliebiges $r \in \mathbb Z_q$ und setzt
     \[
       \mathcal S=g^{rP(0)}
     \] als neuen Schlüssel fest. Zudem werden für alle Empfänger $I_{t_i} \in \mathcal R$ der Wert $g^{rP(I_{t_i})}$ berechnet. Im nächsten Schritt übermittelt der Gruppencontroller jedem Empfänger $u \in \mathcal N$ die berechneten Werte und den persönlichen Schlüssel der unerlaubten Empfängern:
@@ -51,7 +51,7 @@ Sollte zu einem beliebigen Zeitpunkt $t' < t$ unerlaubte Empfänger existieren, f
 \subsection{Mehrfachausführung}
 \label{ch:np-revocation-schema:sec:multi}
 Im Abschnitt \ref{sec:Grundlagen:sec:Single-Revocation} wurde beim Single-Revocation-Schema das Problem der Mehrfachausführung erklärt. Hierbei muss der Gruppencontroller bei Veränderung der Menge $\mathcal R$ ein neues Polynom $P$ und somit einen neuen Schlüssel $\mathcal S$ bestimmen. Dadurch ist es erforderlich, dass jeder Teilnehmer $u_i$ eine neue persönliche Information $\mathcal K_{u_i} = <I_{u_i}, P(I_{u_i})>$ zugewiesen bekommt.\\
-\hspace*{0.45cm}Diese Schritte sind beim Schema für viele Revocations nicht notwendig. Gegeben sei die Menge $\mathcal R=\lbrace I_{u_1},\dots,I_{u_{t-1}}, I_{u_{d}} \rbrace$ mit einem Dummy-Benutzer $I_{u_d}$. Sollte ein bei der ersten Übertragung erlaubter Teilnehmer $u_j$ bei der zweiten Übertragung nicht mehr das Recht besitzen, den Schlüssel $\mathcal S$ zu bestimmen, wird der Dummy-Benutzer aus der Menge $\mathcal R$ durch den Teilnehmer $I_{u_j}$ ersetzt. Die Menge sieht demnach wie folgt aus: $\mathcal R=\lbrace I_{u_1},\dots,I_{u_{t-1}}, I_{u_{j}} \rbrace$. In der Revocation-Phase wählt der Gruppencontroller ein beliebiges $r^\prime \in \mathbb Z_q$ und erhält somit einen neuen Schlüssel $\mathcal S^{\prime}$. Die übertragene Nachricht sieht demnach wie folgt aus:
+\hspace*{0.45cm}Diese Schritte sind beim Schema für viele Revocations nicht notwendig. Gegeben sei die Menge $\mathcal R=\lbrace I_{u_1},\dots,I_{u_{t-1}}, I_{u_{d}} \rbrace$ mit einem Dummy-Benutzer $I_{u_d}$. Sollte ein bei der ersten Übertragung erlaubter Teilnehmer $u_j$ bei der zweiten Übertragung nicht mehr das Recht besitzen den Schlüssel $\mathcal S$ zu bestimmen, wird der Dummy-Benutzer aus der Menge $\mathcal R$ entfernt und durch den Teilnehmer $I_{u_j}$ ersetzt. Die Menge sieht demnach wie folgt aus: $\mathcal R=\lbrace I_{u_1},\dots,I_{u_{t-1}}, I_{u_{j}} \rbrace$. In der Revocation-Phase wählt der Gruppencontroller ein beliebiges $r^\prime \in \mathbb Z_q$ und erhält somit einen neuen Schlüssel $\mathcal S^{\prime}$. Die übertragene Nachricht sieht daraufhin wie folgt aus:
 \[
   <g^{r^\prime}, g^{r^\prime P(I_{u_1})}, g^{r^\prime P(I_{u_2})}, \dots ,g^{r^\prime P(I_{u_{t-1}})}, g^{r^\prime P(I_{u_{d}})} , I_{u_1},  I_{u_2}, \dots,  I_{u_{t-1}}, I_{u_d} >
 \]
