@@ -3,31 +3,31 @@
 
 \chapter{Grundlagen}
 \label{ch:Grundlagen}
-
-In dieser Studienarbeit häufig verwendete Begriffe werden in diesem Abschnitt erläutert. Zudem werden die zugrundeliegenden Definitionen beschrieben, die in der gesamten Studienarbeit als Vorraussetzung gelten. Ferner wird auf das von Adi Shamir entwickelte Secret-Sharing-Verfahren eingegangen, welches das Grundgerüst für alle vorgestellten Verfahren bildet.
+In dieser Studienarbeit häufig verwendete Begriffe werden in diesem Abschnitt genauer erläutert. Des Weiteren werden die zugrundeliegenden Definitionen beschrieben, die in der gesamten Studienarbeit als Vorraussetzung gelten. Hierbei wird auf das von Adi Shamir entwickelte Secret-Sharing-Verfahren eingegangen, welches das Grundgerüst für alle vorgestellten Verfahren bildet. Zusätzlich wird das Single-Revocation-Schema von Naor und Pinkas \cite{np00} erklärt.
 
 \section{Notationen und Definitionen}
 \label{sec:begrifflichkeiten}
 
-Das \textit{Revocation-Schema} bezeichnet eine Methode um unerlaubten Teilnehmern aus einer bestimmten Teilnehmermenge die Möglichkeit zu verweigern, digitale Inhalte zu entschlüsseln. Dieser Prozess ist auch als \textit{User Exclusion} oder \textit{Blacklisting} bekannt.\\
-\hspace*{0.45cm}In dieser Studienarbeit werden Revocation-Schemata vorgestellt, wobei von einem gleichbleibenden Szenario ausgegangen wird: Eine Gruppe von Teilnehmern erhält vom Gruppencontroller (auch als Dealer bezeichnet) digitale Inhalte. Diese Inhalte, wie z.\,B. digitale Musik oder ein TV-Programm, werden über Kanäle wie das Internet, Satellitenübertragung, Kabel oder einer DVD übertragen. Die Informationen sind verschlüsselt und der für die Entschlüsselung notwendige Schlüssel ist anfänglich jedem Teilnehmer bekannt. Nach einer gewissen Zeit lernt der Gruppencontroller Teilnehmer kennen, die gegen die Bedingungen der Nutzungslizenz verstoßen. Beispielsweise bei Nichtzahlung des Abonnements oder bei Veröffentlichung oder Weitergabe des Schlüssels von einem zum anderen Teilnehmer. Dadurch muss der Gruppencontroller diesen Teilnehmern das Recht nehmen, weiteren Inhalt entschlüsseln zu können.\\
+Ein \textit{Revocation-Schema} bezeichnet eine Methode um unerlaubten Teilnehmern aus einer bestimmten Teilnehmermenge die Möglichkeit zu verweigern, digitale Inhalte zu entschlüsseln. Dieser Prozess ist auch als \textit{User Exclusion} oder \textit{Blacklisting} bekannt.\\
+\hspace*{0.45cm}In dieser Studienarbeit werden Revocation-Schemata vorgestellt, wobei von einem gleichbleibenden Szenario ausgegangen wird: Eine Gruppe von Teilnehmern erhält vom Gruppencontroller (auch als Sender oder Dealer bezeichnet) digitale Inhalte. Diese Inhalte, wie z.\,B. digitale Musik oder ein TV-Programm, werden über Kanäle wie das Internet, Satellitenübertragung, Kabel oder einer DVD übertragen. Die Informationen sind verschlüsselt und der für die Entschlüsselung notwendige Schlüssel ist anfänglich jedem Teilnehmer bekannt. Nach einer gewissen Zeit lernt der Gruppencontroller Teilnehmer kennen, die gegen die Bedingungen der Nutzungslizenz verstoßen. Beispielsweise bei Nichtzahlung des Abonnements oder bei Veröffentlichung oder Weitergabe des geheimen Schlüssels von einem zum anderen Teilnehmer. Dadurch ist der Gruppencontroller gezwungen diesen Traitors das Recht zu nehmen weiteren Inhalt entschlüsseln zu können.\\
 \hspace*{0.45cm}Um die Effizienz eines Revocation-Schemas bestimmen zu können, müssen die wichtigen Faktoren der angewendeten Methoden bestimmt werden. Diese werden in drei Kategorien unterteilt:
 \begin{itemize}
   \item
     \textbf{Kommunikationsaufwand}\\
     Wie viel Information muss zwischen dem Gruppencontroller und einem einzelnen Teilnehmer versendet werden, um beispielsweise den geheimen Schlüssel zu erneuern? Hierbei wird besonders die Länge der Nachricht untersucht.
+    \newpage
   \item
     \textbf{Speicheraufwand}\\
     Wie viele und welche Informationen muss der Teilnehmer bei sich speichern, um den neuen Schlüssel berechnen zu können? Im Allgemeinen wird hier die Anzahl an Schlüsseln betrachtet, die ein Teilnehmer für die Berechnung benötigt.
   \item
     \textbf{Berechnungsaufwand}
     \\
-    Wie viele Berechnungen sind vor allem bei einem Teilnehmer nötig, um einen neuen Schlüssel bestimmen zu können?
+    Wie viele Berechnungen sind vor allem bei einem einzelnen Teilnehmer nötig, um einen neuen Schlüssel bestimmen zu können?
 \end{itemize}
 Das Verfahren von M. Naor und B. Pinkas ist deswegen interessant, da keine dieser Faktoren von der Gesamtzahl der Teilnehmer abhängt. Im späteren Verlauf wird deutlich, dass die Länge des Schlüssels konstant und die Kommunikation bzw. der Berechnungsaufwand linear zu der Anzahl der unerlaubten Teilnehmer ist.
 
-Für die Verteilung der benötigten Schlüssel an die Teilnehmer wird ein Secret-Sharing-Verfahren benötigt. In der Kryptopgraphie bezeichnet das \textit{Secret-Sharing} eine Technik der Geheimnisteilung, wobei das Geheimnis von einem Gruppencontroller auf eine Anzahl von Instanzen aufgeteilt wird, den sogenannten \textit{Shares}. Jeder Instanz wird ein eindeutiger \textit{Share} zugewiesen und es ist nicht möglich, ohne Zuhilfenahme zusätzlicher Shares der weiteren Instanzen das Geheimnis zu entschlüsseln. Dieser Fall wird als einfaches Secret-Sharing-Verfahren bezeichnet. Ist jedoch nur eine gewisse Untermenge der Instanzen erforderlich, um das Geheimnis zu rekonstruieren, spricht man von einem erweiterten Secret-Sharing-Verfahren oder einem $(k,n)$-Schwellenwert-Schema.\\
-\hspace*{0.45cm}Es existieren mehrere Möglichkeiten, das oben genannte Schema zu konstruieren. In dieser Studienarbeit wird sich größtenteils auf die aus der numerischen Mathematik bekannte \mbox{Polynominterpolation} konzentriert.
+Für die Verteilung der benötigten Schlüssel an die Teilnehmer wird ein Secret-Sharing-Verfahren benötigt. In der Kryptopgraphie bezeichnet das \textit{Secret-Sharing} eine Technik der Geheimnisteilung, wobei das Geheimnis von einem Gruppencontroller auf eine Anzahl von Instanzen aufgeteilt wird, den sogenannten \textit{Shares}. Jeder Instanz wird ein eindeutiger \textit{Share} zugewiesen und es ist nicht möglich, ohne Zuhilfenahme zusätzlicher Shares der weiteren Instanzen das Geheimnis zu entschlüsseln. Dieser Fall wird als einfaches Secret-Sharing-Verfahren bezeichnet. Ist jedoch nur eine gewisse Untermenge der Instanzen erforderlich um das Geheimnis zu rekonstruieren, spricht man von einem erweiterten Secret-Sharing-Verfahren oder einem $(k,n)$-Schwellenwert-Schema.\\
+\hspace*{0.45cm}Es existieren mehrere Möglichkeiten, das oben genannte Schema zu konstruieren. In dieser Studienarbeit wird sich größtenteils auf die aus der numerischen Mathematik bekannte Polynominterpolation konzentriert.
 
 \subsubsection{Definitionen}
 \label{ch:Grundlagen:sec:Definitionen2}
@@ -42,17 +42,21 @@ Hierzu erstellt der Gruppencontroller ein Polynom der Form
 \[
 P(x)=\mathcal S + a_1x + a_2x^2 + \dots + a_{k-1}x^{k-1}.
 \]
-Im nächsten Schritt erstellt dieser zudem $n$ Wertepaare $(x_i, P(x_i))$ und verteilt diese an die Teilnehmer. Hierbei sind die entsprechenden Werte $x_i$ öffentlich und die Werte $P(x_i)$, die sogenannten Shares, müssen von den Teilnehmern geheim gehalten werden.\\
-Laut dem Fundamentalsatz der Algebra \cite{g15} kann ein Polynom $P$ vom Grad $k$, welches durch angegebenen $k$-Werte $P(x_i)$ verläuft, mit Hilfe von $k$ verschiedenen Wertepaaren $(x_i, P(x_i))$ eindeutig bestimmt werden. Im Vergleich zum einfachen Secret-Sharing-Verfahren eine verbesserte und effizientere Situation, da die Teilnehmer nicht alle existierenden Shares für die Rekonstruktion benötigen. Wie in dieser Studienarbeit später gezeigt wird, existieren verschiedene Möglichkeiten und Methoden, um das Polynom eindeutig zu rekonstruieren.
+Im nächsten Schritt erstellt dieser zudem $n$ Wertepaare $(x_i, P(x_i))$ und verteilt diese an die Teilnehmer. Hier entspricht der Wert $x_i$ der öffentliche und $P(x_i)$ der private Teil des Shares. Letzteres müssen von den Teilnehmern geheim gehalten werden.\\
+Laut dem Fundamentalsatz der Algebra \cite{g15} kann ein Polynom $P$ vom Grad $k$, welches durch angegebenen $k$-Stützwerte $P(x_i)$ verläuft mit Hilfe von $k$ verschiedenen Wertepaaren $(x_i, P(x_i))$ eindeutig bestimmt werden. Im Vergleich zum einfachen Secret-Sharing-Verfahren eine verbesserte und effizientere Situation, da die Teilnehmer nicht alle existierenden Shares für die Rekonstruktion benötigen. Wie im Aschnitt \ref{ch:abschnitt3-2} und \ref{ch:abschnitt3-3} später gezeigt wird, existieren verschiedene Möglichkeiten und Methoden, um das Polynom eindeutig zu rekonstruieren.
 
 \section{Single-Revocation-Schema}
 \label{sec:Grundlagen:sec:Single-Revocation}
-In diesem Abschnitt wird das Single-Revocation-Schema aus dem Kapitel 2.1 der Veröffentlichung von Naor-Pinkas \cite{np00} genauer erläutert. Dieses Verfahren basiert auf das Shamirs-Secret-Sharing-Schema und kann für einzelne Revocation (\textit{single revocation}) von bis zu $t$ Teilnehmer genutzt werden. Das Schema wird hierbei in folgende zwei Phasen gegliedert:
+In diesem Abschnitt wird das Single-Revocation-Schema aus dem Kapitel 2.1 der Veröffentlichung von Naor-Pinkas \cite{np00} beschrieben. Dieses Verfahren basiert auf das Shamirs-Secret-Sharing-Schema und kann für einzelne Revocations (\textit{single revocations}) von bis zu $t$ Teilnehmer genutzt werden. Das Schema wird hierbei in folgende zwei Phasen gegliedert:
 \begin{enumerate}
   \item
     \textbf{Vorbereitung}\\
     Gegeben sei ein Körper $\mathcal F$. Aus diesem wählt der Gruppencontroller ein zufälliges Element $\mathcal S \in \mathcal F$, sodass dieses als Schlüssel eines symmetrischen Verschlüsselungsschemas benutzt werden kann.
-    Außerdem generiert der Gruppencontroller in dieser Phase ein zufälliges, reeles Polynom $P$ vom Grad $t$ über $\mathcal F$ und legt mit $\mathcal S \coloneqq P(0)$ das Geheimnis fest. Im nächsten Schritt werden $n$ Wertepaare $I_{u_i} = (u_i, P(u_i))$ mit $i=0,\dots,n$ erstellt, wobei $\forall x_i \neq 0$ gelten muss. Anschließend werden diese an die jeweiligen Teilnehmer verteilt.
+    Außerdem generiert der Gruppencontroller in dieser Phase ein zufälliges, reeles Polynom $P$ vom Grad $t$ über $\mathcal F$ und legt mit
+    \[
+      \mathcal S \coloneqq P(0)
+    \]
+    das Geheimnis fest. Im nächsten Schritt werden $n$ Wertepaare $I_{u_i} = (u_i, P(u_i))$ mit $i=0,\dots,n$ erstellt, wobei $\forall x_i \neq 0$ gelten muss. Anschließend werden diese an die jeweiligen Teilnehmer verteilt.
   \item
     \textbf{Rekonstruktion}\\
     In dieser Phase sollen die Teilnehmer $u_i \in \mathcal N \setminus \mathcal R$ das Geheimnis $\mathcal S$ ermitteln können, wobei gleichzeitig die $t$ Teilnehmer $u_{r_i} \in \mathcal R$ dies nicht können sollen.\\
@@ -60,9 +64,9 @@ In diesem Abschnitt wird das Single-Revocation-Schema aus dem Kapitel 2.1 der Ve
     \[
       <u_{r_1}, P(u_{r_1})>, <u_{r_2}, P(u_{r_2})>, \dots , <u_{r_t}, P(u_{r_t})>.
     \]
-    Da jeder Teilnehmer sein Wertepaar $I_{u_i}$ bei sich gespeichert hat, können nach dem Fundamentalsatz der Algebra \cite{g15} nur die Teilnehmer $u_i \in \mathcal N \setminus \mathcal R$ den Schlüssel $\mathcal S=P(0)$ eindeutig bestimmen, da nur diese Teilnehmer $t+1$ verschiedene Stützstellen und Stützwerte besitzen. Ein Teilnehmer $u_i \in \mathcal R$ besitzt mit Hilfe der übertragenen Nachricht und der bei sich gespeicherten Information lediglich $t$ voneinander verschiedenen Wertepaare. Das Geheimnis $\mathcal S$ kann von den unerlaubten Teilnehmern nicht eindeutig bestimmt werden kann.
+    Da jeder Teilnehmer sein Wertepaar $I_{u_i}$ bei sich gespeichert hat, können nach dem Fundamentalsatz der Algebra \cite{g15} ausschließlich die Teilnehmer $u_i \in \mathcal N \setminus \mathcal R$ den Schlüssel $\mathcal S=P(0)$ eindeutig bestimmen, da nur diese Teilnehmer $t+1$ verschiedene Stützstellen und Stützwerte besitzen. Ein Teilnehmer $u_i \in \mathcal R$ besitzt mit Hilfe der übertragenen Nachricht und der bei sich gespeicherten Information lediglich $t$ voneinander verschiedenen Wertepaare. Das Geheimnis $\mathcal S$ kann von den unerlaubten Teilnehmern nicht eindeutig bestimmt werden kann.
 \end{enumerate}
 
 \subsubsection{Nachteil des Single-Revocation-Schemas}
 \label{ch:Grundlagen:sec:Broadcasting}
-Aufgrund dessen, dass der geheime Schlüssel $\mathcal S$ nach der erfolgreichen Rekonstruktion des Polynoms $P$ eindeutig bestimmbar ist, muss $\mathcal S$ bei Veränderung der Menge der unerlaubten Empfänger $\mathcal R$ neu gewählt werden. Daher ist es notwendig, dass der Gruppencontroller ein neues, beliebiges Polynom $P$ wählt und jeder Instanz vor der Übertragung des Chriffrats die persönlichen Shares über einen privaten Kanal übermittelt. Dies ist erforderlich, da beispielsweise ein im ersten Durchlauf noch legaler Empfänger im zweiten Durchlauf zu einem unerlaubten Empfänger werden kann und daher nicht mehr die Möglichkeit besitzen soll, das Geheimnis bestimmen zu können. Dadurch muss in dieser Situation das Geheimnis $\mathcal S_1$ sich im zweiten Durchlauf vom Geheimnis $\mathcal S_2$ unterscheiden.
+Aufgrund dessen, dass der geheime Schlüssel $\mathcal S$ nach der erfolgreichen Rekonstruktion des Polynoms $P$ eindeutig bestimmbar ist, muss $\mathcal S$ bei Veränderung der Menge der unerlaubten Empfänger $\mathcal R$ neu gewählt werden. Daher ist es notwendig, dass der Gruppencontroller ein neues, beliebiges Polynom $P$ wählt und jedem Teilnehmer vor der eigentlichen Übertragung des Chriffrats die persönlichen Shares über einen privaten Kanal übermittelt. Dies ist erforderlich, da beispielsweise ein im ersten Durchlauf noch legaler Empfänger im zweiten Durchlauf zu einem unerlaubten Empfänger werden kann und daher nicht mehr die Möglichkeit besitzen soll, das Geheimnis bestimmen zu können. Dadurch muss in dieser Situation das Geheimnis $\mathcal S_1$ sich im zweiten Durchlauf vom Geheimnis $\mathcal S_2$ unterscheiden.
