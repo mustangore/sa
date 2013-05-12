@@ -38,11 +38,16 @@
 \contentsline {subsubsection}{Wert des Schl\"ussels}{22}{section*.7}
 \contentsline {subsection}{\numberline {3.4.3}Fazit}{22}{subsection.3.4.3}
 \contentsline {section}{\numberline {3.5}Vergleich der Interpolationsm\"oglichkeiten}{24}{section.3.5}
-\contentsline {chapter}{\numberline {4}Asmuth-Bloom-Verfahren}{25}{chapter.4}
-\contentsline {section}{\numberline {4.1}Simultane Kongruenzen ganzer Zahlen}{25}{section.4.1}
-\contentsline {section}{\numberline {4.2}Chinesischer Restsatz}{25}{section.4.2}
-\contentsline {section}{\numberline {4.3}Asmuth-Bloom-Secret-Sharing-Schema}{26}{section.4.3}
-\contentsline {section}{\numberline {4.4}Ausblick: Anwendung als Revocation-Schema}{27}{section.4.4}
-\contentsline {section}{\numberline {4.5}Fazit}{28}{section.4.5}
-\contentsline {chapter}{\numberline {5}Zusammenfassung und Ausblick}{29}{chapter.5}
-\contentsline {chapter}{Literaturverzeichnis}{31}{section*.8}
+\contentsline {subsection}{\numberline {3.5.1}Additionen}{24}{subsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5.2}Multiplikationen}{24}{subsection.3.5.2}
+\contentsline {subsection}{\numberline {3.5.3}Divisionen}{25}{subsection.3.5.3}
+\contentsline {subsection}{\numberline {3.5.4}Exponenten-Berechnungen}{25}{subsection.3.5.4}
+\contentsline {subsection}{\numberline {3.5.5}Fazit}{25}{subsection.3.5.5}
+\contentsline {chapter}{\numberline {4}Asmuth-Bloom-Verfahren}{27}{chapter.4}
+\contentsline {section}{\numberline {4.1}Simultane Kongruenzen ganzer Zahlen}{27}{section.4.1}
+\contentsline {section}{\numberline {4.2}Chinesischer Restsatz}{27}{section.4.2}
+\contentsline {section}{\numberline {4.3}Asmuth-Bloom-Secret-Sharing-Schema}{28}{section.4.3}
+\contentsline {section}{\numberline {4.4}Ausblick: Anwendung als Revocation-Schema}{29}{section.4.4}
+\contentsline {section}{\numberline {4.5}Fazit}{30}{section.4.5}
+\contentsline {chapter}{\numberline {5}Zusammenfassung und Ausblick}{31}{chapter.5}
+\contentsline {chapter}{Literaturverzeichnis}{33}{section*.8}

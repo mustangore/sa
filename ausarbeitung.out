@@ -33,11 +33,16 @@
 \BOOKMARK [2][-]{subsection.3.4.2}{3.4.2 Kubische Spline-Interpolation im Naor-Pinkas-Verfahren}{section.3.4}% 33
 \BOOKMARK [2][-]{subsection.3.4.3}{3.4.3 Fazit}{section.3.4}% 34
 \BOOKMARK [1][-]{section.3.5}{3.5 Vergleich der Interpolationsm\366glichkeiten}{chapter.3}% 35
-\BOOKMARK [0][]{chapter.4}{4 Asmuth-Bloom-Verfahren}{}% 36
-\BOOKMARK [1][-]{section.4.1}{4.1 Simultane Kongruenzen ganzer Zahlen}{chapter.4}% 37
-\BOOKMARK [1][-]{section.4.2}{4.2 Chinesischer Restsatz}{chapter.4}% 38
-\BOOKMARK [1][-]{section.4.3}{4.3 Asmuth-Bloom-Secret-Sharing-Schema}{chapter.4}% 39
-\BOOKMARK [1][-]{section.4.4}{4.4 Ausblick: Anwendung als Revocation-Schema}{chapter.4}% 40
-\BOOKMARK [1][-]{section.4.5}{4.5 Fazit}{chapter.4}% 41
-\BOOKMARK [0][]{chapter.5}{5 Zusammenfassung und Ausblick}{}% 42
-\BOOKMARK [0][]{section*.8}{Literaturverzeichnis}{}% 43
+\BOOKMARK [2][-]{subsection.3.5.1}{3.5.1 Additionen}{section.3.5}% 36
+\BOOKMARK [2][-]{subsection.3.5.2}{3.5.2 Multiplikationen}{section.3.5}% 37
+\BOOKMARK [2][-]{subsection.3.5.3}{3.5.3 Divisionen}{section.3.5}% 38
+\BOOKMARK [2][-]{subsection.3.5.4}{3.5.4 Exponenten-Berechnungen}{section.3.5}% 39
+\BOOKMARK [2][-]{subsection.3.5.5}{3.5.5 Fazit}{section.3.5}% 40
+\BOOKMARK [0][]{chapter.4}{4 Asmuth-Bloom-Verfahren}{}% 41
+\BOOKMARK [1][-]{section.4.1}{4.1 Simultane Kongruenzen ganzer Zahlen}{chapter.4}% 42
+\BOOKMARK [1][-]{section.4.2}{4.2 Chinesischer Restsatz}{chapter.4}% 43
+\BOOKMARK [1][-]{section.4.3}{4.3 Asmuth-Bloom-Secret-Sharing-Schema}{chapter.4}% 44
+\BOOKMARK [1][-]{section.4.4}{4.4 Ausblick: Anwendung als Revocation-Schema}{chapter.4}% 45
+\BOOKMARK [1][-]{section.4.5}{4.5 Fazit}{chapter.4}% 46
+\BOOKMARK [0][]{chapter.5}{5 Zusammenfassung und Ausblick}{}% 47
+\BOOKMARK [0][]{section*.8}{Literaturverzeichnis}{}% 48

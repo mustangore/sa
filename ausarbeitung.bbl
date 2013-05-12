@@ -26,28 +26,6 @@
 {\em Another new proof of the theorem that every integral rational algebraic function of one variable can be resolved into real factors of the first or second degree.}
 \newblock G"ottingen 1815.
 
-\bibitem[DH79]{dh79}
-{\sc Diffie W.} \btxandlong{}\ {\sc Hellman M.E.},
-\newblock New Directions in Cryptography,
-\newblock \textit{IEEE Trans. on Information Theroy},
-\newblock pp. 644-654, 1979
-
-\bibitem[E85]{e85}
-{\sc T. ElGamal},
-{ \em A public key cryptosystem and a sognature scheme based on discrete logarithmus },
-\newblock Proc. Advances in Cryptology - Grypto '84,
-\newblock Springer-Verlag LNCS 196, pp 10-18, 1985
-
-\bibitem[NR97]{nr97}
-{\sc M. Naor} \btxandlong{}\ {\sc O. Reingold},
-{ \em Number-Theoretic constructions of efficient pseudo-random functions},
-\newblock Proc. 38th IEEE Symp. on Foundations of Computer Science, pp. 458-467, 1997
-
-\bibitem[CS98]{cs98}
-{\sc R. Cramer} \btxandlong{}\ {\sc V. Shoup},
-{ \em A practical public key cryptosystem provably secure against adaptove chosen ciphertext attacks},
-\newblock Proc. Advances in Cryptology - Crypto '98, Springer-Verlag LNCS 1462, pp. 13-25, 1998
-
 \bibitem[C11]{c11}
 {\sc R. Cramer},
 { \em Numerik Skript},
@@ -67,11 +45,6 @@
 {\sc M. Quisquater, B. Preneel} \btxandlong{}\ {\sc J. Vandewalle}.
 { \em On the security of the secret sharing scheme based on the chinese remainder theorem }.
 \newblock In Proc. of PKC 2002, Vol. 2274 of LNCS, pp. 199-210. Springer-Verlag, 2002
-
-\bibitem[F87]{f87}
-{\sc P. Feldman},
-{ \em A  practival scheme for non-interactive verifiable secret sharing},
-\newblock Proc. 28th IEEE Symp. on Foundations of Computer Science, pp. 427-437, 1987
 
 \bibitem[B79]{b79}
 {\sc G. R. Blakley}.
