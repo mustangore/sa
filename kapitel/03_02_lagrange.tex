@@ -2,7 +2,7 @@
 
 \section{Naor-Pinkas-Polynom-Interpolation mit Lagrange}
 \label{ch:abschnitt3-2}
-Im vorherigen Abschnitt \ref{ch:np-revocation-schema:sec:Verfahren} wurde das von M. Naor und B. Pinkas entwickelte Verfahren vorgestellt, jedoch ohne Angabe eines konkreten Interpolationsverfahrens für das Polynom $P$. Die im Paper angewendete Lagrange-Interpolation wird in diesem Abschnitt das Hauptthema sein.
+Im vorherigen Abschnitt \ref{ch:np-revocation-schema:sec:Verfahren} wurde das von M. Naor und B. Pinkas entwickelte Verfahren vorgestellt, jedoch ohne Angabe eines konkreten Interpolationsverfahrens für das Polynom $P$. Die in der veröffentlichten Arbeit von Naor und Pinkas \cite{np00} angewendete Lagrange-Interpolation wird in diesem Abschnitt das Hauptthema sein.
 
 %% ==============================
 \subsection{Lagrange-Interpolationsaufgabe für Polynome}
@@ -24,7 +24,7 @@ Nach dem Fundamentalsatz der Algebra \cite{g15} existiert ein solches Polynom st
 \subsection{Lagrange-Interpolation im Naor-Pinkas-Verfahren}
 %% ==============================
 \label{ch:np-revocation-schema:sec:Lagrange}
-Der Gruppencontroller generiert ein zufälliges Polynom $P$ vom Grad $t$ über $\mathbb Z_q$ und erstellt für jeden Empfänger $u$ ein persönliches Wertepaar $K_{u_0} = <I_{u_0}, P(I_{u_0})>$. Dieses wird über einen privaten Kanal an den Empfänger $u_0$ gesendet, wobei $I_{u_0}$ ein nichtgeheimes Indentifizierungsmerkmal beschreibt. Zudem wählt der Gruppencontroller ein zufälliges $r \in \mathbb Z_q$ und setzt $g^{rP(0)}$ als neuen Schlüssel $\mathcal S$. Nach diesen Schritten übermittelt der Gruppencontroller folgende Nachricht in Klartext an alle Empfänger:
+Der Gruppencontroller generiert ein zufälliges Polynom $P$ vom Grad $t$ über $\mathbb Z_q$ und erstellt für jeden Empfänger $u$ ein persönliches Wertepaar $K_{u_0} = <I_{u_0}, P(I_{u_0})>$. Dieses wird über einen privaten Kanal an den Empfänger $u_0$ gesendet, wobei $I_{u_0}$ ein nichtgeheimes Indentifizierungsmerkmal beschreibt. Zudem wählt der Gruppencontroller ein zufälliges $r \in \mathbb Z_q$ und setzt $g^{rP(0)}$ als neuen Schlüssel $\mathcal S$ fest. Nach diesen Schritten übermittelt der Gruppencontroller folgende Nachricht alle Empfänger $u\in \mathcal N$:
 \begin{align*}
 <g^r, g^{rP(I_{u_1})}, g^{rP(I_{u_2})}, \dots ,g^{rP(I_{u_t})}, I_{u_1},  I_{u_2}, \dots,  I_{u_t}>
 \end{align*}
@@ -46,7 +46,7 @@ Die Berechnung des Schlüssels $\mathcal S$ erfolgt nach folgenden Berechnungssch
 & = \prod_{i=0}^t (g^r)^{\lambda_i P(I_{u_i})}\\
 & = \prod_{i=0}^t (g^{r P(I_{u_i})})^{\lambda_i}
 \end{align*}
-Mit Hilfe des vom Gruppencontroller übertragenen Wertes $g^r$ und der persönlichen Information $K_{u_0} = <I_{u_0}, P(I_{u_0})>$ kann jeder Empfänger $u \in \mathcal N \setminus \mathcal R$ das Polynom eindeutig an der Stelle $g^{rP(0)}$ bestimmen, da nur dieser die erforderlichen ($t+1$) Wertepaare $<(I_{u_i}, P(I_{u_i})>$ mit $i=0,\dots,t$ besitzen. Einem Empfänger $u_r \in R$ fehlt das notwendige ($t+1$)-te Wertepaar, da seine Stützstelle bereits in der übermittelten Nachricht vorkommt und somit doppelt vorhanden ist.
+Mit Hilfe des vom Gruppencontroller übertragenen Wertes $g^r$ und der persönlichen Information $K_{u_0} = <I_{u_0}, P(I_{u_0})>$ kann jeder Empfänger $u \in \mathcal N \setminus \mathcal R$ das Polynom eindeutig an der Stelle $g^{rP(0)}$ bestimmen, da nur diese die erforderlichen ($t+1$) Wertepaare $<(I_{u_i}, P(I_{u_i})>$ mit $i=0,\dots,t$ besitzen. Einem Empfänger $u_r \in R$ fehlt das notwendige ($t+1$)-te Wertepaar, da seine Stützstelle bereits in der übermittelten Nachricht vorkommt und somit doppelt vorhanden ist.
 
 \subsection{Aufwand}
 \label{ch:np-revocation-schema:sec:Aufwand}
@@ -73,7 +73,7 @@ an. Die nächsten Berechnungen erfolgen bei der Ermittlung des geheimen Schlüssel
 \[
 \prod_{i=0}^t (g^{r P(I_{u_i})})^{\lambda_i}=(g^{r P(I_{u_0})})^{\lambda_0} \cdot \ldots \cdot (g^{r P(I_{u_t})})^{\lambda_t}
 \]
-Zum einen sind dank der übertragenen Nachricht die Werte bekannt, zum anderen müssen die Exponenten noch berechnet werden. Dies erhöht den Aufwand auf weitere ($t+1$) E. Der Berechnungsaufwand beträgt demnach
+Zum einen sind dank der übertragenen Nachricht die Werte in den Klammern bekannt, zum anderen müssen die Exponenten noch berechnet werden. Dies erhöht den Aufwand auf weitere ($t+1$) E. Der Berechnungsaufwand beträgt demnach
 \begin{align}
 \label{eq:la_auf_formel}
 t\,M + (t+2)\,E .
@@ -89,5 +89,5 @@ Nach den Ergebnissen aus \eqref{eq:la_auf_grundpol} und \eqref{eq:la_auf_formel}
 
 \subsection{Fazit}
 \label{ch:np-revocation-schema:sec:Fazit}
-Die Lagrange-Interpolation selten praktische angewendet. Zum einen ist bei einer großen Anzahl von Stützstellen der Rechenaufwand verhältnismäßig groß, da für alle ($t+1$) Stützstellen jeweils ein Lagrange-Grundpolynom berechnet werden muss, was zum Gesamtaufwand wie in \eqref{eq:la_formel_gesamt} dargestellt führt. Zum anderen ist bei Hinzunahme lediglich einer einzelnen Stützstelle eine Neuberechnung aller $\lambda_i$ notwendig.\\
-\hspace*{0.45cm}Ein Vorteil der Lagrange-Darstellung ist jedoch, dass sich die Summen aus den aus Produkten bestehenden Brüchen besonders einfach in Form von ineinander geschachtelten Schleifen programmieren und somit einfacher in Programmen einbeziehen lassen. Zudem werden die Stützwerte unabhängig von den Stützstellen berechnet. Sobald die Lagrange-Grundpolynome $\lambda_i$ bestimmt wurden, lassen sich verschiedene Sätze von Stützwerten $y_i$ mit gleichen Stützstellen $x_i$ schneller interpolieren. Auf das Verfahren von M. Naor und B. Pinkas bezogen, ein enormer Vorteil, da in einem Zeitraum bei Nichtveränderung der unerlaubten Empfängermenge die weiteren Empfänger $u \notin R$ durch lokale Speicherung der Lagrange-Grundpolynome $\lambda_i$ nicht mehr neu berechnet werden müssen. Aufgrund dieser Eigenschaft lässt sich nach einmaliger Berechnung der $\lambda_i$ und in einem Zeitraum ohne Änderung der Menge $\mathcal R$ der Rechenaufwand auf $t$ Multiplikationen und $(t+2)$ Exponentenberechnungen reduzieren. Zudem kann in diesem speziellen Zeitraum auch die zu übertragende Nachrichtenlänge um die Menge der zu sperrenden Empfänger $\mathcal R = \{I_{u_1},\dots,I_{u_t}\}$ verkürzt werden, da diese wegen den bereits berechneten und lokal gespeicherten Lagrange-Grundpolynomen $\lambda_i$ nicht mehr benötigt werden. Dadurch reduziert sich die Länge der übermittelten Nachricht um $t$ Elemente aus dem Körper $\mathcal F$.
+Die Lagrange-Interpolation wird in der Praxis eher selten angewendet. Zum einen ist bei einer großen Anzahl von Stützstellen der Rechenaufwand verhältnismäßig groß, da für alle ($t+1$) Stützstellen jeweils ein Lagrange-Grundpolynom berechnet werden muss, was zum Gesamtaufwand wie in \eqref{eq:la_formel_gesamt} dargestellt führt. Zum anderen ist bei Hinzunahme lediglich einer einzelnen Stützstelle eine Neuberechnung aller $\lambda_i$ notwendig.\\
+\hspace*{0.45cm}Ein Vorteil der Lagrange-Darstellung ist jedoch, dass sich die Summen aus den aus Produkten bestehenden Brüchen besonders einfach in Form von ineinander geschachtelten Schleifen programmieren und somit einfacher in Programmen einbeziehen lassen. Zudem werden die Stützwerte unabhängig von den Stützstellen berechnet. Sobald die Lagrange-Grundpolynome $\lambda_i$ bestimmt wurden, lassen sich verschiedene Sätze von Stützwerten $y_i$ mit gleichen Stützstellen $x_i$ schneller interpolieren. Auf das Verfahren von M. Naor und B. Pinkas bezogen ein enormer Vorteil, da in einem Zeitraum bei Nichtveränderung der unerlaubten Empfängermenge die weiteren Empfänger $u \notin R$ durch lokale Speicherung der Lagrange-Grundpolynome $\lambda_i$ nicht mehr neu berechnet werden müssen. Aufgrund dieser Eigenschaft lässt sich nach einmaliger Berechnung der $\lambda_i$ und in einem Zeitraum ohne Änderung der Menge $\mathcal R$ der Rechenaufwand auf $t$ Multiplikationen und $(t+2)$ Exponentenberechnungen reduzieren. Zudem kann in diesem speziellen Zeitraum auch die zu übertragende Nachrichtenlänge um die Menge der zu sperrenden Empfänger $\mathcal R = \{I_{u_1},\dots,I_{u_t}\}$ verkürzt werden, da diese wegen den bereits berechneten und lokal gespeicherten Lagrange-Grundpolynomen $\lambda_i$ nicht mehr benötigt werden. Dadurch reduziert sich die Länge der übermittelten Nachricht um $t$ Elemente aus dem Körper $\mathcal F$.
