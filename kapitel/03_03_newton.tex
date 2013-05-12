@@ -206,9 +206,8 @@ Daraus abgeleitet benötigt ein Empfänger $u_0$ für die gesamte Berechnung der Ko
 Der Gesamtaufwand für die Newton-Interpolation im Naor-Pinkas-Verfahren für einen einzelnen Empfänger $u_0$ beträgt nach \eqref{eq:newton-aufwand-basis} und \eqref{eq:newton-aufwand-koef} insgesamt
 \begin{align}
 \label{eq:newton-aufwand-gesamt}
-  & 1\,E +\sum_{i=1}^{t} \left( i\,M + E \right) +1\,E+\sum_{i=1}^{t} \left( (2^i-1)\,D+ 2^{i-1}\cdot \left( i\,A + \left( i-1 \right)\,M + 1\,D +1\,E \right) \right)\notag\\
-  & = (t+2)\,E+ \sum_{i=1}^{t} \left( (2^i-1)\,D+ 2^{i-1}\cdot (i\,A+i\,M+1\,D+1\,E)\right)\notag\\
-  &= 2\,E + \sum_{i=1}^t \left((2^i-1)\,D+ 2^{i-1}\cdot(i\,A+i\,M+1\,D+1\,E) +1\,E \right)
+  &\hspace*{0.45cm}\left(1\,E +\sum_{i=1}^{t} \left( i\,M + E \right)\right) + \left(1\,E+\sum_{i=1}^{t} \left( (2^i-1)\,D+ 2^{i-1}\cdot \left( i\,A + \left( i-1 \right)\,M + 1\,D +1\,E \right) \right)\right)\notag\\
+  & = 2\,E+ \sum_{i=1}^{t} \left( (2^i-1)\,D+ 2^{i-1}\cdot (i\,A+(i-1)\,M+1\,D+1\,E)+i\,M+1\,E\right)
 \end{align}
 
 % Die fehlenden Koeffizienten $c_i$ werden über die Formel

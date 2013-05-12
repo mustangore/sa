@@ -37,16 +37,16 @@ Aus \eqref{eq:la_formel_gesamt} ermitteln wird die Anzahl an Multiplikationen fü
 \]
 Im Vergleich dazu die aus der Newton-Interpolation:
 \[
-  Anzahl_{N_M} = \sum_{i=1}^t 2^{i-1}\cdot i\,M %= \frac{t(t+1)(2t+1)}{6}\,M
+  Anzahl_{N_M} = \sum_{i=1}^t 2^{i-1}\cdot (i-1)\,M+i\,M
 \]
 Auch hier ist das Ziel nun, diese zwei Ergebnisse miteinander in Beziehung zu setzen:
 \begin{center}
 \begin{tabular}{c|c|c}
 $|\mathcal R|$ & $Anzahl_{L_M}$ & $Anzahl_{N_M}$\\
 \hline
-10 & 208 & 9217\\
-25 & 1273 & 805306369\\
-50 & 5048 & $5,517\cdot 10^{16}$\\
+10 & 208 & 8249\\
+25 & 1273 & 771752263\\
+50 & 5048 & $5,404\cdot 10^{16}$\\
 \end{tabular}
 \end{center}
 Ähnlich wie bei der Anzahl an Additionen steigt die Anzahl an Multiplikationen bei der Newton-Interpolation schneller an.
