@@ -61,13 +61,13 @@ Um den Rechenaufwand der Lagrange-Interpolation im Naor-Pinkas-Verfahren ermitte
 \end{align*}
 Dabei werden im Zähler insgesamt ($t-1$) Mutliplikationen (M) und im Nenner ($t-1$) M und $t$ Additionen (A) benötigt. Zudem kommt zum Schluss eine Division (D) dazu. Zusammengefasst ergibt das für ein einzelnes Lagrange-Grundpolynome folgenden Aufwand:
 \[
-  2\cdot (t+1)\,M + 1\, D  + t\, A.
+  2\cdot (t-1)\,M + 1\, D  + t\, A.
 \]
 Die Berechnung muss für jede der ($t+1$) Stützstellen ausgeführt werden. Der Rechenaufwand für alle Lagrange-Grundpolynome steigt dadurch auf insgesamt
 \begin{align}
 \label{eq:la_auf_grundpol}
-&\hspace*{0.45cm} (t+1)\cdot ( 2\cdot(t+1)\,M +1\,D + t\,A )\notag\\
-&= 2\cdot (t+1)^2\,M + (t+1)\,D + t\cdot(t+1)\,A
+&\hspace*{0.45cm} (t+1)\cdot ( 2\cdot(t-1)\,M +1\,D + t\,A )\notag\\
+&= 2\cdot (t^2-1)\,M + (t+1)\,D + t\cdot(t+1)\,A
 \end{align}
 an. Die nächsten Berechnungen erfolgen bei der Ermittlung des geheimen Schlüssels $\mathcal S$. Mit Hilfe des vom Gruppencontroller übertragenen Wertes $g^r$ kann der Empfänger $(g^r)^{P(I_{u_0})}$ berechnen. Offensichtlich kostet dies eine Exponentenberechnung (E). Um das Polynom letztendlich an der Stelle $P(0)$ ermitteln zu können, muss die folgende Formel ausgeführt werden:
 \[
@@ -83,8 +83,8 @@ t\,M + (t+2)\,E .
 Nach den Ergebnissen aus \eqref{eq:la_auf_grundpol} und \eqref{eq:la_auf_formel} beträgt der Gesamtaufwand für einen Empfänger mit der Lagrange-Interpolation im Naor-Pinkas-Verfahren
 \begin{align}
 \label{eq:la_formel_gesamt}
-&\hspace*{0.45cm} 2\cdot (t+1)^2\,M + (t+1)\,D + t\cdot(t+1)\,A + t\,M + (t+2)\,E \notag\\
-&= \left(2\cdot (t+1)^2+t\right)\,M+(t+1)\,D + t\cdot(t+1)\,A + (t+2)\,E.
+&\hspace*{0.45cm} 2\cdot (t^2-1)\,M + (t+1)\,D + t\cdot(t+1)\,A + t\,M + (t+2)\,E \notag\\
+&= \left(2\cdot (t^2-1)+t\right)\,M+(t+1)\,D + t\cdot(t+1)\,A + (t+2)\,E.
 \end{align}
 
 \subsection{Fazit}

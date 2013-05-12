@@ -33,7 +33,7 @@ Die Anzahl an Additionen steigt in der Newton-Interpolation im Naor-Pinkas-Schem
 \label{sub:multiplikationen}
 Aus \eqref{eq:la_formel_gesamt} ermitteln wird die Anzahl an Multiplikationen für die Lagrange-Interpolation im Naor-Pinkas-Schema:
 \[
-  Anzahl_{L_M} = \left(2\cdot(t+1)^2+t\right)\,M
+  Anzahl_{L_M} = \left(2\cdot(t^2-1)+t\right)\,M
 \]
 Im Vergleich dazu die aus der Newton-Interpolation:
 \[
@@ -44,9 +44,9 @@ Auch hier ist das Ziel nun, diese zwei Ergebnisse miteinander in Beziehung zu se
 \begin{tabular}{c|c|c}
 $|\mathcal R|$ & $Anzahl_{L_M}$ & $Anzahl_{N_M}$\\
 \hline
-10 & 252 & 9217\\
-25 & 1377 & 805306369\\
-50 & 5252 & $5,517\cdot 10^{16}$\\
+10 & 208 & 9217\\
+25 & 1273 & 805306369\\
+50 & 5048 & $5,517\cdot 10^{16}$\\
 \end{tabular}
 \end{center}
 Ähnlich wie bei der Anzahl an Additionen steigt die Anzahl an Multiplikationen bei der Newton-Interpolation schneller an.
