@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "entires": "516",
+  "texts": {
+    "version": "There exists an upgrade for your version.",
+    "entries": "There exists an upgrade for your entries"
+  },
+  "check_link": "https://raw.github.com/mustangore/sa/master/version.json",
+  "download_link": "http://www.google.de"
+}
